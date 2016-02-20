@@ -1,7 +1,7 @@
 # Introduction to R for Business Intelligence
 This is the code repository for the Packt Publishing book _Introduction to R for Business Intelligence_.
 
-[book url here]{www.packtpub.com}
+[book url here](www.packtpub.com)
 
 ## First edition
 * ISBN-10: 1785280250
@@ -24,5 +24,3 @@ Follow the authors on Twitter or email:
 * Jay Gendron: @jaygendron
 * Jason Rich:
 * Rick Jones: 
-
-The book website is http://swiftessentials.org and Twitter @swiftessentials
