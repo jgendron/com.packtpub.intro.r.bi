@@ -10,7 +10,7 @@ This is the code repository for the Packt Publishing book _Introduction to R for
 ### _Chapters_
 
 * Chapter 1: Getting the Data Ready: Extract, Transform, and Load
-* Chapter 2: Data Cleaning
+* Chapter 2: [Data Cleaning](https://github.com/jgendron/com.packtpub.intro.r.bi/tree/master/Chapter2-DataCleaning)
 * Chapter 3: Data Exploration Using R
 * Chapter 4: Regression Models for Business
 * Chapter 5: Data Mining: Clustering and Market Basket Analysis
