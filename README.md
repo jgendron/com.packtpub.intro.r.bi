@@ -9,7 +9,7 @@ This is the code repository for the Packt Publishing book _Introduction to R for
  
 ### _Chapters_
 
-* Chapter 1: Getting the Data Ready: Extract, Transform, and Load
+* Chapter 1: [Extract, Transform, and Load](https://github.com/jgendron/com.packtpub.intro.r.bi/tree/master/Chapter1-ExtractTransformLoad)
 * Chapter 2: [Data Cleaning](https://github.com/jgendron/com.packtpub.intro.r.bi/tree/master/Chapter2-DataCleaning)
 * Chapter 3: [Exploratory Data Analysis](https://github.com/jgendron/com.packtpub.intro.r.bi/tree/master/Chapter3-ExploratoryDataAnalysis)
 * Chapter 4: Regression Models for Business
