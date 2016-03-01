@@ -28,8 +28,23 @@ bike[location, ]
 #  Converting inputs to data types suited for analysis
 bike$humidity <- as.numeric(bike$humidity)
 
-categorical <- c("season", "holiday", "workingday", "weather")
-bike[ ,categorical] <- lapply(bike[ ,categorical], factor)
+bike$holiday <- factor(bike$holiday, levels = c(0, 1),
+                       labels = c("no", "yes"))
+bike$workingday <- factor(bike$workingday, levels=c(0, 1),
+                          labels = c("no", "yes"))
+
+bike$season <- factor(bike$season, levels = c(1, 2, 3, 4),
+                      labels = c("spring", "summer",
+                                 "fall", "winter"),
+                      ordered = TRUE )
+
+bike$weather <- factor(bike$weather, levels = c(1, 2, 3, 4),
+                      labels = c("clr_part_cloud",
+                                 "mist_cloudy",
+                                 "lt_rain_snow",
+                                 "hvy_rain_snow"),
+                      ordered = TRUE )
+str(bike)
 
 library(lubridate)
 bike$datetime <- mdy_hm(bike$datetime)
@@ -56,3 +71,6 @@ unique(bike$sources)
 
 bike$sources <- as.factor(bike$sources)
 str(bike)
+
+write.csv(bike, "Ch2_clean_bike_sharing_data.csv",
+           row.names = FALSE)
