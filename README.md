@@ -22,5 +22,6 @@ This is the code repository for the Packt Publishing book _Introduction to R for
 
 Follow the authors on Twitter or email:
 * Jay Gendron: @jaygendron
-* Jason Rich:
 * Rick Jones: 
+
+* {Chapter 8} Steve Mortimer: 
