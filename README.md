@@ -20,8 +20,8 @@ This is the code repository for the Packt Publishing book _Introduction to R for
 
 ## Contacts
 
-Follow the authors on Twitter or email:
+Follow the author and contributors on Twitter or email:
 * Jay Gendron: @jaygendron
-* Rick Jones: 
 
+* {Chapters 3 and 4} Rick Jones: 
 * {Chapter 8} Steve Mortimer: 
