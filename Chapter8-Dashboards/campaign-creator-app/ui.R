@@ -42,8 +42,12 @@ shinyUI(
     # is performing a calculation longer than 1 second
     busyIndicator(text = "Calculation in progress ... ", wait = 0),
     
-    br(),
-    
+    # create a row in the ui devoted to welcoming the user
+    # and telling them how to choose different cluster sizes
+    # using the slider input
+    # NOTE: adding the class'vertical-align' ensures that
+    # the slider input is centered vertically in the row
+    # next to the block of text
     fluidRow(
       class='vertical-align',
       column(3, 
@@ -61,17 +65,27 @@ shinyUI(
       )
     ),
     
+    # create a row specifically for showing the results
+    # and diagnostics of the user's cluster count choice
     fluidRow(
-      column(7, plotOutput("cluster_viz", height = "500px")),
+      column(7, 
+             # display the ggplot of clusters
+             plotOutput("cluster_viz", height = "500px")
+             ),
       column(5, 
              h3('Cluster Summary Table'),
-             DT::dataTableOutput("campaign_summary_table", width = "100%"))
+             # display the table of cluster summaries of age and income
+             DT::dataTableOutput("campaign_summary_table", width = "100%")
+             )
     ),
     
+    # create a separate part of the ui
+    # by dividing the page with a horizontal rule hr()
+    # and showing them how to download groups of potential
+    # campaign members based on the cluster membership and
+    # other factors in the table of data
     hr(),
-    
     h3('Potential Campaign Members'),
-    
     fluidRow(
       column(4,
              p('The data in the table below shows all potential customers, their cluster ', 
@@ -86,13 +100,18 @@ shinyUI(
                'with disposable income relative to their peer group.')
              ),
       column(4,
+             # add a button to download the data in the table
              tags$div(class="itemright",downloadButton('downloadDataFromTable', 'Download Table Data'))
              )
     ),
     
     fluidRow(
-      column(12, DT::dataTableOutput("campaign_table", width = "100%"))
+      column(12, 
+             # display the table of potential campaign members
+             DT::dataTableOutput("campaign_table", width = "100%")
+             )
     )
-  )
-)
+    
+  ) # this parenthesis closes the fluidPage
+) # this parenthesis closes the UI
     

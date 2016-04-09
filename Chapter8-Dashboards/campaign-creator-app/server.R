@@ -13,6 +13,9 @@ shinyServer(function(input, output, session) {
   clustered_dataset <- reactive({
     
     # rebuild the kmeans model with the user specified cluster count
+    # because this code is inside a "reactive" function
+    # it will always re-execute whenever the user
+    # changes input$cluster_count
     kmeans_model <- kmeans(x=market[,c('age_scale', 'inc_scale')], 
                            centers=input$cluster_count)
     
@@ -24,9 +27,13 @@ shinyServer(function(input, output, session) {
     return(result_dat)
   })
   
+  # create the cluster summary dataset
   cluster_summary_dataset <- reactive({
-    # create the cluster summary dataset
-    clustered_dataset() %>% 
+    # this will always re-evaluate whenver 
+    # clustered_dataset changes. This is
+    # how reactive changes "bubble" through
+    # the application
+    summary <- clustered_dataset() %>% 
       group_by(cluster_id) %>% 
       summarise(min_age = min(age), avg_age = mean(age),
                 max_age = max(age), avg_inc = mean(income), 
@@ -37,6 +44,7 @@ shinyServer(function(input, output, session) {
              `Min. Age`=min_age, `Max. Age`=max_age,
              `Min. Income`=min_inc, `Max. Income`=max_inc
              )
+    return(summary)
   })
   
   # create all aspects of the table of data
@@ -49,6 +57,8 @@ shinyServer(function(input, output, session) {
     d <- DT::datatable(cluster_summary_dataset(), 
                        options = list(
                          deferRender = FALSE,
+                         # center all of the columns using the dt-center class
+                         # defined in our app-styling.css file
                          columnDefs = list(list(className = 'dt-center', targets = '_all')),
                          autoWidth = FALSE,
                          lengthChange = FALSE,
@@ -74,18 +84,26 @@ shinyServer(function(input, output, session) {
                   backgroundPosition = 'center')
     # return the datatable object to be rendered
     return(d)
-    
   })
   
   # create a visual representation of the clusters
   output$cluster_viz <- renderPlot({
     
+    # calculate cluster centers so we can 
+    # show a label at each center to denote
+    # each cluster
     centers <- clustered_dataset() %>% 
       group_by(cluster_id) %>% 
       summarize(median_age=median(age), 
                 median_income=median(income))
+    
+    # calcualte a total count of clusters to 
+    # display in the plot title
     cluster_count <- nrow(centers)
     
+    # create the cluster plot to help
+    # the user visualize their choice
+    # for the total number of clusters
     p <- ggplot(clustered_dataset(), aes(x = age, y = income, color = cluster_id)) + 
       geom_point() +
       geom_text(data = centers, 
@@ -104,9 +122,13 @@ shinyServer(function(input, output, session) {
       theme(plot.title=element_text(face="bold", size=20, margin=margin(0,0,10,0)), 
             axis.title.x=element_text(margin=margin(10,0,0,0)),
             axis.title.y=element_text(margin=margin(0,10,0,0)))
+    # after creating the plot, print it so
+    # that it is made visible to the UI
     print(p)
   })
   
+  # create a dataset to display in a table 
+  # and download from
   table_data <- reactive({
     table_data <- clustered_dataset() %>% 
       group_by(cluster_id) %>% 
@@ -123,8 +145,8 @@ shinyServer(function(input, output, session) {
     return(table_data)
   })
   
-  # create a table to display potential
-  # campaign members sorted by cluster
+  # create the table using a variet of options
+  # to configure the look and feel
   output$campaign_table <- DT::renderDataTable({
   
     d <- DT::datatable(table_data(), 
@@ -141,6 +163,7 @@ shinyServer(function(input, output, session) {
                          pageLength = 25,
                          info = TRUE,
                          ordering = TRUE,
+                         # sort by cluster id initially
                          order = list(list(7, 'asc'))
                        ),
                        filter = 'top',
