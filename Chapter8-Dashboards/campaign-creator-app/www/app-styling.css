@@ -2,15 +2,28 @@
 /***************************
 ****************************
 change the font for the 
-entire page
+entire page and other 
+styling
 ****************************
 ***************************/
 body {
   font-family: Source Sans Pro;
   overflow-y: scroll;
-  padding-bottom: 20px;
+  margin: 10px 10px 10px 10px;
   color: #444;
-  font-weight: 300;
+  font-weight: 400;
+}
+
+/***************************
+****************************
+style the "Hello" text in
+the first paragraph to be
+larger than all other text
+so that it stands out
+****************************
+***************************/
+p strong {
+  font-size: 24pt;
 }
 
 /***************************
@@ -42,7 +55,7 @@ columns in a data table
 ****************************
 ***************************/
 dt-center {
-   text-align: center;  
+  text-align: center;  
 }
 
 /***************************
@@ -76,10 +89,80 @@ div.shinysky-busy-indicator p {
 
 /***************************
 ****************************
-add margin to the refresh 
-symbol
+add margin to the 
+download symbol
 ****************************
 ***************************/
-i.fa.fa-refresh {
-    margin-right: 5px;
+i.fa.fa-download {
+  margin-right: 5px;
+}
+
+/***************************
+****************************
+apply formatting to table
+filter inputs so they are 
+easier to use
+****************************
+***************************/
+.dataTable tfoot td, table.dataTable thead td {
+  padding: 3px 1px 3px 1px !important;
+}
+.dataTable thead td .glyphicon.glyphicon-remove-circle{
+  position: relative;
+  top: 1px;
+}
+.dataTable thead td .form-control {
+  padding-right: 0;
+  padding-left: 4px;
+}
+.dataTables_filter {
+  display: none;
+}
+
+/***************************
+****************************
+add margin to the download
+button so it is positioned
+further from the top of 
+the table
+****************************
+***************************/
+#downloadDataFromTable {
+  margin-bottom: 15px;
+}
+  
+/***************************
+****************************
+create elements to float
+the text and download 
+buttons to the right and
+left of the screen
+****************************
+***************************/  
+div.itemright {
+  vertical-align: top;
+  text-align: center;
+  float: right;
+  margin-right: 5px;
+}
+div.itemleft {
+  vertical-align: top;
+  float: left;
+  margin-left: 5px;
+}
+
+/***************************
+****************************
+create a special class that
+can be applid to the first
+row in the ui so that the
+sliderInput for choosing
+clusters is positioned
+nicely next to the 
+welcome text
+****************************
+***************************/
+.vertical-align {
+  display: flex;
+  align-items: center;
 }
