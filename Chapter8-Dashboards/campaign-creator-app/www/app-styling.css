@@ -37,6 +37,16 @@ table row selections
 
 /***************************
 ****************************
+create a style for centering
+columns in a data table
+****************************
+***************************/
+dt-center {
+   text-align: center;  
+}
+
+/***************************
+****************************
 modify the look and feel
 of the progress wheel
 ****************************

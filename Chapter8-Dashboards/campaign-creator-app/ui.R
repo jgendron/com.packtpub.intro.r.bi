@@ -37,10 +37,22 @@ shinyUI(
     
     # include a progress wheel whenever the app
     # is performing a calculation longer than 1 second
-    busyIndicator(text = "Calculation in progress ... ", wait = 1000),
+    busyIndicator(text = "Calculation in progress ... ", wait = 0),
     
     fluidRow(
-      h5('Hellow')
+      h5('Hellow'),
+      sliderInput("cluster_count",
+                  label="How Many Clusters?",
+                  min=2, max=10, 
+                  value=6, step=1)
+    ),
+    
+    fluidRow(
+      column(7, plotOutput("cluster_viz", height = "500px")),
+      column(5, 
+             h3('Cluster Summary Table'),
+             hr(),
+             DT::dataTableOutput("campaign_summary_table", width = "100%"))
     ),
     
     fluidRow(
