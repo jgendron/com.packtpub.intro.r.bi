@@ -1,0 +1,75 @@
+
+/***************************
+****************************
+change the font for the 
+entire page
+****************************
+***************************/
+body {
+  font-family: Source Sans Pro;
+  overflow-y: scroll;
+  padding-bottom: 20px;
+  color: #444;
+  font-weight: 300;
+}
+
+/***************************
+****************************
+highlight any selected rows
+in the table with yellow
+
+WARNING: Adjoining classes 
+notation is not compatible 
+with IE6 browsers
+
+The use of !important ensures
+that this style overrides
+others when doing the 
+table row selections
+****************************
+***************************/
+.dataTable tbody .even.selected {
+  background-color: #FFFFCC !important;
+}
+.dataTable tbody .odd.selected {
+  background-color: #FFFFCC !important;
+}
+
+/***************************
+****************************
+modify the look and feel
+of the progress wheel
+****************************
+***************************/
+div.shinysky-busy-indicator {
+  z-index: 10000 !important;
+  position:fixed;
+  top: 25%;
+  left: 40%;
+  margin-top: auto;
+  margin-left: auto;
+  display:none;
+  background: rgba(230, 230, 230, .8);
+  text-align: center;
+  font-size: x-large !important;
+  font-family: Source Sans Pro;
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-bottom: 30px;
+  padding-right: 30px;
+  border: 1px solid grey !important;
+  border-radius: 5px;
+}
+div.shinysky-busy-indicator p {
+  margin-bottom: 20px !important;
+}
+
+/***************************
+****************************
+add margin to the refresh 
+symbol
+****************************
+***************************/
+i.fa.fa-refresh {
+    margin-right: 5px;
+}
