@@ -106,7 +106,7 @@ shinyUI(
              ),
       column(4,
              p('For example, if you select the 75th percentile and above ', 
-               'for "Income %Tile within Cluster, then you will be selecting only the top 25% ', 
+               'for "Income %Tile within Cluster", then you will be selecting only the top 25% ', 
                'of incomes from each cluster, which might be a nicely stratified sample of customers ', 
                'with disposable income relative to their peer group.')
              ),

@@ -3,10 +3,7 @@
 # prior to the shiny server session block
 # any variables declared here will be shared 
 # between all Shiny app users
-market <- read.csv("./data/market-data.csv")
-market$`First Name` <- rep('Test', nrow(market))
-market$`Last Name` <- rep('Test', nrow(market))
-market$`Email` <- rep('Test@gmail.com', nrow(market))
+market <- read.csv("./data/market-data.csv", check.names=F)
 
 shinyServer(function(input, output, session) {
   

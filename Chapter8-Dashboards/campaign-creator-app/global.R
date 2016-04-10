@@ -39,4 +39,4 @@ suppressWarnings(suppressPackageStartupMessages(library(dendextend)))
 # to overwrite the default coloring of the dendextend package
 suppressWarnings(suppressPackageStartupMessages(library(RColorBrewer)))
 
-dendrogram_color_scheme <- c(head(brewer.pal(8, 'Set1'),2), brewer.pal(8, "Dark2"))
+dendrogram_color_scheme <- c(head(brewer.pal(8, 'Set1'), 2), brewer.pal(8, "Dark2"))
