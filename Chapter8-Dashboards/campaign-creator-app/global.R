@@ -31,8 +31,12 @@ suppressWarnings(suppressPackageStartupMessages(library(ggplot2)))
 # scales package for formatting the ggplot graphics
 suppressWarnings(suppressPackageStartupMessages(library(scales)))
 
-suppressWarnings(suppressPackageStartupMessages(library(ggdendro)))
+# dendextend package for creating a dendrogram plot
+# that has more features than base plotting
+suppressWarnings(suppressPackageStartupMessages(library(dendextend)))
 
+# RColorBrewer for creating a length 10 color scale
+# to overwrite the default coloring of the dendextend package
 suppressWarnings(suppressPackageStartupMessages(library(RColorBrewer)))
 
 dendrogram_color_scheme <- c(head(brewer.pal(8, 'Set1'),2), brewer.pal(8, "Dark2"))
