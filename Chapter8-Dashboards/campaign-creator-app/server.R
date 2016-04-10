@@ -111,12 +111,17 @@ shinyServer(function(input, output, session) {
       arrange(cluster_id) %>% 
       as.data.frame
     
-    # calcualte a total count of clusters to 
+    # calculate a total count of clusters to 
     # display in the plot title
     cluster_count <- nrow(centers)
     
+    # the plotting method will change
+    # based upon the clustering method
     if(input$cluster_method=='Hierarchical'){
       
+      # recompute the clusters
+      # based on the user-specified
+      # cluster count
       cent <- NULL
       for(k in 1:cluster_count){
         cent <- rbind(cent, colMeans(clustered_dataset()[clustered_dataset()$cluster_id == k, 
@@ -125,8 +130,15 @@ shinyServer(function(input, output, session) {
       }
       cut_tree <- hclust(dist(cent)^2, method = "cen", 
                     members = table(clustered_dataset()$cluster_id))
+      
+      # convert the cut tree to a dendrogram to 
+      # prepare it for plotting and add
+      # more informative labels
       dend <- cut_tree %>% as.dendrogram
       labels(dend) <- centers$label
+      
+      # using the ggdendro package
+      # add styling to the dendrogram
       dend <- dend %>%
         set("branches_k_color", 
             k=cluster_count, 
@@ -136,19 +148,33 @@ shinyServer(function(input, output, session) {
         set("labels_colors", 
             dendrogram_color_scheme[1:cluster_count]) %>% 
         set("nodes_pch", 18)
+      
+      # convert the dendrogram to a ggplot
+      # friendly version so we can style and add
+      # labels via ggplot2 methods
       ggdend <- as.ggdend(dend)
+      
+      # push the color schemes over to
+      # the text labels so they match up 
+      # with the dendrogram segments
       centers <- inner_join(centers, 
                             ggdend$segments %>% filter(!duplicated(xend), !is.na(col)) %>% select(xend,col), 
                             by=c('cluster_id'='xend'))
+      
+      # create the plot of the dendrogram
       p <- ggplot(ggdend, labels=F) +
+        # add the labels at each leaf
         geom_text(data=centers, 
                   aes(label = label, x = as.numeric(cluster_id), y = -.1, 
                       size=4, lineheight=.8, color=col), hjust=0) +
+        # flip the axes and scale to fit the text
         coord_flip() + 
         scale_y_reverse(limits=c(max(ggdend$segments$yend)+.15,
                                  min(ggdend$segments$yend)-1.5)) + 
         scale_x_reverse(limits=c(max(ggdend$segments$xend)+.5,
                                  min(ggdend$segments$yend)+.5)) + 
+        # add titling and other theme elements to make 
+        # more consistent with the K-means created plot
         ggtitle(paste(cluster_count, '- Cluster Model')) +
         theme_bw() +
         theme(line=element_blank(), 
@@ -158,7 +184,9 @@ shinyServer(function(input, output, session) {
               axis.title.y=element_blank(), 
               axis.ticks=element_blank(),
               plot.title=element_text(face="bold", size=20, margin=margin(0,0,10,0)))
+      
     } else {
+      
       # create the cluster plot to help
       # the user visualize their choice
       # for the total number of clusters
@@ -180,7 +208,9 @@ shinyServer(function(input, output, session) {
         theme(plot.title=element_text(face="bold", size=20, margin=margin(0,0,10,0)), 
               axis.title.x=element_text(margin=margin(10,0,0,0)),
               axis.title.y=element_text(margin=margin(0,10,0,0)))
+      
     }
+    
     # after creating the plot, print it so
     # that it is made visible to the UI
     print(p)

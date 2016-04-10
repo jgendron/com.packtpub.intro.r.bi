@@ -57,12 +57,16 @@ shinyUI(
         p('After choosing a cluster scheme', 
           'you can filter and download customer data based on those clusters to run a campaign.')
       ),
+      # allow the user to pick a total number of
+      # clusters to create
       column(3,
              sliderInput("cluster_count",
                          label="How Many Clusters?",
                          min=2, max=10, 
                          value=6, step=1)
       ),
+      # allow the user to pick a clustering method
+      # default to K-means
       column(6,
              radioButtons("cluster_method",
                           label="Clustering Method?",
