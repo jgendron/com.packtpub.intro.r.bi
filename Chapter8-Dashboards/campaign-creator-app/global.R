@@ -30,3 +30,9 @@ suppressWarnings(suppressPackageStartupMessages(library(ggplot2)))
 
 # scales package for formatting the ggplot graphics
 suppressWarnings(suppressPackageStartupMessages(library(scales)))
+
+suppressWarnings(suppressPackageStartupMessages(library(ggdendro)))
+
+suppressWarnings(suppressPackageStartupMessages(library(RColorBrewer)))
+
+dendrogram_color_scheme <- c(head(brewer.pal(8, 'Set1'),2), brewer.pal(8, "Dark2"))

@@ -12,18 +12,25 @@ shinyServer(function(input, output, session) {
   
   clustered_dataset <- reactive({
     
-    # rebuild the kmeans model with the user specified cluster count
-    # because this code is inside a "reactive" function
-    # it will always re-execute whenever the user
-    # changes input$cluster_count
-    kmeans_model <- kmeans(x=market[,c('age_scale', 'inc_scale')], 
-                           centers=input$cluster_count)
-    
     # append the cluster_id to a result dataframe
     # remember to leave the market data.frame alone
     # since it's shared between other Shiny user sessions
     result_dat <- market
-    result_dat$cluster_id <- as.factor(kmeans_model$cluster)
+    
+    # rebuild the model with the user specified cluster count
+    # because this code is inside a "reactive" function
+    # it will always re-execute whenever the user
+    # changes input$cluster_count or input$cluster_method
+    if (input$cluster_method=='K-means'){
+      kmeans_model <- kmeans(x=market[,c('age_scale', 'inc_scale')], 
+                             centers=input$cluster_count)
+      result_dat$cluster_id <- as.factor(kmeans_model$cluster)
+    } else {
+      hierarchical_model <- hclust(dist(market[,c('age_scale', 'inc_scale')]), method = "ward.D2")
+      result_dat$cluster_id <- as.factor(cutree(hierarchical_model, 
+                                                input$cluster_count))
+    }
+    
     return(result_dat)
   })
   
@@ -35,11 +42,11 @@ shinyServer(function(input, output, session) {
     # the application
     summary <- clustered_dataset() %>% 
       group_by(cluster_id) %>% 
-      summarise(min_age = min(age), avg_age = mean(age),
-                max_age = max(age), avg_inc = mean(income), 
+      summarise(min_age = min(age), median_age = median(age),
+                max_age = max(age), median_inc = median(income), 
                 min_inc = min(income), max_inc = max(income)) %>%
-      arrange(avg_inc) %>% 
-      select(`Avg. Age`=avg_age, `Avg. Income`=avg_inc, 
+      arrange(median_inc) %>% 
+      select(`Median Age`=median_age, `Median Income`=median_inc, 
              `Cluster Id`=cluster_id,
              `Min. Age`=min_age, `Max. Age`=max_age,
              `Min. Income`=min_inc, `Max. Income`=max_inc
@@ -75,9 +82,9 @@ shinyServer(function(input, output, session) {
     
     # add formats to the columns for ease of interpretation
     d <- d %>% 
-      formatRound('Avg. Age', digits=1) %>%
-      formatCurrency(c('Avg. Income', 'Min. Income', 'Max. Income'), digits=0) %>%
-      formatStyle('Avg. Income', fontWeight = 'bold',
+      formatRound('Median Age', digits=0) %>%
+      formatCurrency(c('Median Income', 'Min. Income', 'Max. Income'), digits=0) %>%
+      formatStyle('Median Income', fontWeight = 'bold',
                   background = styleColorBar(data=c(0, 125000), color='#d5fdd5'),
                   backgroundSize = '100% 70%',
                   backgroundRepeat = 'no-repeat',
@@ -95,33 +102,85 @@ shinyServer(function(input, output, session) {
     centers <- clustered_dataset() %>% 
       group_by(cluster_id) %>% 
       summarize(median_age=median(age), 
-                median_income=median(income))
+                median_income=median(income)) %>%
+      ungroup() %>%
+      mutate(cluster_id=as.numeric(as.character(cluster_id)), 
+             label = paste('Cluster', cluster_id, '\nMedian Age:', 
+                           median_age, '\nMedian Income:', 
+                           dollar(round(median_income, 2)))) %>% 
+      arrange(cluster_id) %>% 
+      as.data.frame
     
     # calcualte a total count of clusters to 
     # display in the plot title
     cluster_count <- nrow(centers)
     
-    # create the cluster plot to help
-    # the user visualize their choice
-    # for the total number of clusters
-    p <- ggplot(clustered_dataset(), aes(x = age, y = income, color = cluster_id)) + 
-      geom_point() +
-      geom_text(data = centers, 
-                aes(x = median_age, 
-                    y = median_income,
-                    label = as.character(cluster_id)),
-                    color = 'black',
-                    size = 16) +
-      scale_colour_discrete(guide = FALSE) +
-      scale_y_continuous(labels=dollar, breaks=pretty_breaks(n=10)) + 
-      scale_x_continuous(breaks=pretty_breaks(n=10)) + 
-      xlab("Age") + 
-      ylab("Income") +
-      ggtitle(paste(cluster_count, '- Cluster Model')) + 
-      theme_bw() + 
-      theme(plot.title=element_text(face="bold", size=20, margin=margin(0,0,10,0)), 
-            axis.title.x=element_text(margin=margin(10,0,0,0)),
-            axis.title.y=element_text(margin=margin(0,10,0,0)))
+    if(input$cluster_method=='Hierarchical'){
+      
+      cent <- NULL
+      for(k in 1:cluster_count){
+        cent <- rbind(cent, colMeans(clustered_dataset()[clustered_dataset()$cluster_id == k, 
+                                                         c('age_scale', 'inc_scale'), 
+                                                         drop = FALSE]))
+      }
+      cut_tree <- hclust(dist(cent)^2, method = "cen", 
+                    members = table(clustered_dataset()$cluster_id))
+      dend <- cut_tree %>% as.dendrogram
+      labels(dend) <- centers$label
+      dend <- dend %>%
+        set("branches_k_color", 
+            k=cluster_count, 
+            dendrogram_color_scheme[1:cluster_count] ) %>% 
+        set("branches_lwd", 1.2) %>%
+        set("branches_lty", 1) %>%
+        set("labels_colors", 
+            dendrogram_color_scheme[1:cluster_count]) %>% 
+        set("nodes_pch", 18)
+      ggdend <- as.ggdend(dend)
+      centers <- inner_join(centers, 
+                            ggdend$segments %>% filter(!duplicated(xend), !is.na(col)) %>% select(xend,col), 
+                            by=c('cluster_id'='xend'))
+      p <- ggplot(ggdend, labels=F) +
+        geom_text(data=centers, 
+                  aes(label = label, x = as.numeric(cluster_id), y = -.1, 
+                      size=4, lineheight=.8, color=col), hjust=0) +
+        coord_flip() + 
+        scale_y_reverse(limits=c(max(ggdend$segments$yend)+.15,
+                                 min(ggdend$segments$yend)-1.5)) + 
+        scale_x_reverse(limits=c(max(ggdend$segments$xend)+.5,
+                                 min(ggdend$segments$yend)+.5)) + 
+        ggtitle(paste(cluster_count, '- Cluster Model')) +
+        theme_bw() +
+        theme(line=element_blank(), 
+              axis.text.x=element_blank(),
+              axis.text.y=element_blank(), 
+              axis.title.x=element_blank(),
+              axis.title.y=element_blank(), 
+              axis.ticks=element_blank(),
+              plot.title=element_text(face="bold", size=20, margin=margin(0,0,10,0)))
+    } else {
+      # create the cluster plot to help
+      # the user visualize their choice
+      # for the total number of clusters
+      p <- ggplot(clustered_dataset(), aes(x = age, y = income, color = cluster_id)) + 
+        geom_point() +
+        geom_text(data = centers, 
+                  aes(x = median_age, 
+                      y = median_income,
+                      label = as.character(cluster_id)),
+                      color = 'black',
+                      size = 16) +
+        scale_colour_discrete(guide = FALSE) +
+        scale_y_continuous(labels=dollar, breaks=pretty_breaks(n=10)) + 
+        scale_x_continuous(breaks=pretty_breaks(n=10)) + 
+        xlab("Age") + 
+        ylab("Income") +
+        ggtitle(paste(cluster_count, '- Cluster Model')) + 
+        theme_bw() + 
+        theme(plot.title=element_text(face="bold", size=20, margin=margin(0,0,10,0)), 
+              axis.title.x=element_text(margin=margin(10,0,0,0)),
+              axis.title.y=element_text(margin=margin(0,10,0,0)))
+    }
     # after creating the plot, print it so
     # that it is made visible to the UI
     print(p)
@@ -131,16 +190,16 @@ shinyServer(function(input, output, session) {
   # and download from
   table_data <- reactive({
     table_data <- clustered_dataset() %>% 
+      mutate(income_ptile_overall=round(rank(income)/length(income),4)) %>%
       group_by(cluster_id) %>% 
-      mutate(age_ptile=round(rank(age)/length(age),4), 
-             income_ptile=round(rank(income)/length(income),4), 
+      mutate(income_ptile=round(rank(income)/length(income),4), 
              income=round(income,2)) %>%
       ungroup() %>%
       arrange(-income_ptile) %>%
       select(`First Name`, `Last Name`, 
              `Email`, `Age`=age, `Income`=income, 
-             `Age %Tile within Cluster`=age_ptile, 
              `Income %Tile within Cluster`=income_ptile, 
+             `Income %Tile Overall`=income_ptile_overall, 
              `Cluster Id`=cluster_id)
     return(table_data)
   })
@@ -174,8 +233,8 @@ shinyServer(function(input, output, session) {
                        )
     
     d <- d %>% formatCurrency('Income', digits=0) %>%
-      formatPercentage(c('Age %Tile within Cluster', 
-                         'Income %Tile within Cluster'), digits=1)
+      formatPercentage(c('Income %Tile within Cluster', 
+                         'Income %Tile Overall'), digits=1)
     
     return(d)
   })

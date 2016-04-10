@@ -53,15 +53,22 @@ shinyUI(
       column(3, 
         p(strong('Hello'), ', this application allows you to specify different clusters of customers', 
           'based on age and income to determine more targeted marketing segments. Simply, ', 
-          'move the slider at right for more or less clusters.'), 
+          'move the slider at right for more or less clusters and chose a clustering method.'), 
         p('After choosing a cluster scheme', 
           'you can filter and download customer data based on those clusters to run a campaign.')
       ),
-      column(8,
-        sliderInput("cluster_count",
-                   label="How Many Clusters?",
-                   min=2, max=10, 
-                   value=6, step=1)
+      column(3,
+             sliderInput("cluster_count",
+                         label="How Many Clusters?",
+                         min=2, max=10, 
+                         value=6, step=1)
+      ),
+      column(6,
+             radioButtons("cluster_method",
+                          label="Clustering Method?",
+                          choices = c('K-means', 'Hierarchical'), 
+                          selected = 'K-means', 
+                          inline=F)
       )
     ),
     
