@@ -11,7 +11,6 @@ Deploying A Shiny App
 
 A knowledge of HTML, CSS, Javascript is not required to develop Shiny apps; however, a familiarity will be helpful in understanding how Shiny functions and how to extend core functionality. It is also not a requirement to be an expert R coder; however, a strong command of the topics covered in this book is recommended (loading data, cleaning data, creating graphics) because they are the building blocks of many Shiny apps.
 
-
 Finished Product
 
 Summary
@@ -20,9 +19,6 @@ Resources to learn more
 
 R packages used in Chapter 8
 
-shiny
-shinyjs
-shinysky
-DT
-
 References
+
+Fake Identities from https://randomuser.me/
