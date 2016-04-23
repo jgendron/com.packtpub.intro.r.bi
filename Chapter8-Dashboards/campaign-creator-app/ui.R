@@ -8,13 +8,13 @@ shinyUI(
   # to the size of the browser window
   fluidPage(
     
-    # adding a title makes for a more identifiable
-    # tab in the brower window for a user
-    tags$title("Campaign Creator"),
-    
     # all resources typically put into an HTML head tag
     # can be specified using tags$head
     tags$head(
+      
+      # adding a title makes for a more identifiable
+      # tab in the brower window for a user
+      tags$title("Campaign Creator"),
       
       # load the Sans Pro Font for cleaner look
       # consistent with RStudio projects
