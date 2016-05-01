@@ -36,7 +36,7 @@ n1$params$width <- 700
 n1$params$height <- 400
 n1
 
-dat <- read.csv('./data/Ch7_email_marketing_conversion_rates.csv', check.names = F)
+dat <- read.csv('./data/Ch7_email_marketing_conversions.csv', check.names = F)
 promotion1 <- dat[dat$Promotion == '10% off', 2:4]
 colnames(promotion1) <- c('source', 'target', 'value')
 sankeyPlot <- rCharts$new()
@@ -44,10 +44,43 @@ sankeyPlot$setLib('http://timelyportfolio.github.io/rCharts_d3_sankey/libraries/
 sankeyPlot$set(
   data = promotion1,
   nodeWidth = 25,
-  nodePadding = 50,
+  nodePadding = 100,
   layout = 800,
   width = 700,
-  height = 500,
-  labelFormat = ".2%"
+  height = 500
 )
+sankeyPlot$setTemplate(
+  afterScript = "
+  <script>
+
+  // loop through the nodes and find the total count of emails sent
+  // we will use this to determine the percentages of each descendant node
+  var total_emails_sent = 0;
+  d3.selectAll('#{{ chartId }} svg .node text')
+    .text( function(d) { 
+    if(d.name == 'Sent Email') { 
+      total_emails_sent = d.value 
+    }
+  })
+
+  // loop through the nodes and rename them and format them
+  d3.selectAll('#{{ chartId }} svg .node text')
+    .text( function(d) { 
+            if(d.name == 'Sent Email') { 
+              return d.name 
+            } else { 
+              return d.name + ': ' + d3.format('.0%')(d.value / total_emails_sent)
+            } 
+          })
+    .style('font-size', '13')
+    .style('font-weight', 'bold')
+
+  // loop through the links and add the conversion percentage
+  // we will use this to determine the percentages of each descendant node
+  d3.selectAll('#{{ chartId }} svg .link title')
+    .text( function(d) { 
+            return d.source.name + ' \\u2192 ' + 
+                    d.target.name + ': ' + d3.format('.0%')(d.value / d.source.value) })
+  </script>
+  ")
 sankeyPlot
