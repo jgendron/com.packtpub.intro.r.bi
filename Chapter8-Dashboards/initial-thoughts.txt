@@ -1,0 +1,24 @@
+Initial Thoughts:
+
+Intro
+
+Data insights are great, but interactive, web-based insights are even better. As a data analyst, it is paramount to deliver insights to stakeholders in way that is most effective for taking action. A poor delivery of insights can cripple an entire data project and the shift towards web-based technologies to deliver information has put increased pressure on the analyst to deliver insights via the web. Shiny is R's web application framework that harnesses the power of modern web technologies to build complex web applications with only a good command of R. This chapter will cover the building blocks of a Shiny application:
+
+Creating Required Files
+Designing a User Interface (UI)
+Writing Server-side Logic
+Deploying A Shiny App
+
+A knowledge of HTML, CSS, Javascript is not required to develop Shiny apps; however, a familiarity will be helpful in understanding how Shiny functions and how to extend core functionality. It is also not a requirement to be an expert R coder; however, a strong command of the topics covered in this book is recommended (loading data, cleaning data, creating graphics) because they are the building blocks of many Shiny apps.
+
+Finished Product
+
+Summary
+
+Resources to learn more
+
+R packages used in Chapter 8
+
+References
+
+Fake Identities from https://randomuser.me/
