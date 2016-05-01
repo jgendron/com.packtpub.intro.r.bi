@@ -1,3 +1,8 @@
+# Copyright 2016 Packt Publishing
+
+# Introduction to R for Business Intelligence
+# Chapter 8, ui.R file - Web Dashboards with Shiny
+
 library(shiny)
 
 shinyUI(fluidPage(

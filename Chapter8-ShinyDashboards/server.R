@@ -1,3 +1,8 @@
+# Copyright 2016 Packt Publishing
+
+# Introduction to R for Business Intelligence
+# Chapter 8, server.R file - Web Dashboards with Shiny
+
 library(shiny)
 
 revenue <- read.csv('./data/Ch8_marketing.csv')
@@ -18,10 +23,8 @@ shinyServer(function(input, output) {
                  pch = '-', cex = 2, col = 'orange')
           segments(input$spend, pred[2], input$spend, pred[3],
                    col = 'orange', lty = 2, lwd = 2)
-          
-          points(input$spend, pred[1], pch = 19, col = 'blue',
+                    points(input$spend, pred[1], pch = 19, col = 'blue',
                  cex = 2)
-          
           text(54, 55, pos = 4, cex = 0.9,
                paste0('Predicted revenues of $',
                       round(pred[1], 2) * 1000,
