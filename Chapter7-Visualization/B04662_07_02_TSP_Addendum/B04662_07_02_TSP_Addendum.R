@@ -1,19 +1,19 @@
 # Copyright 2016 Packt Publishing
 
 # Introduction to R for Business Intelligence
-# Chapter 7, Part 2 - Geo-mapping Data using Leaflet
+# Chapter 7, Part 2 Addendum - Solving for Service Truck Optimization
 
 message("Introduction to R for Business Intelligence
         Chapter 7 - Visualizing the Data’s Story
         Copyright (2016) Packt Publishing \n
-        Let's continue to learn about geo-mapping")
+        Let's continue to learn about solving for service truck optimization")
 
-#
-# Geo-mapping Data using Leaflet
 
-library(leaflet)
+library(TSP)
+library(Imap)
 
-# load custom functions for deriving the traveling salesman solution
+# load 2 custom functions for deriving the traveling salesman solution
+
 ReplaceLowerOrUpperTriangle <- function(m, triangle.to.replace){
   # If triangle.to.replace="lower", replaces the lower triangle of a square matrix with its upper triangle.
   # If triangle.to.replace="upper", replaces the upper triangle of a square matrix with its lower triangle.
@@ -66,38 +66,8 @@ GeoDistanceInMetresMatrix  = function(df.geopoints){
 
 kiosks <- read.csv("./data/Ch7_bike_kiosk_locations.csv",header=TRUE)
 
-# basic plotting example
-map <- leaflet() %>% 
-  addTiles() %>%
-  addMarkers(data = kiosks, ~longitude, ~latitude)
-map
-
-# a more customized plotting example
-bike <- makeIcon("bike.png",  iconWidth = 15, iconHeight = 15)
-kiosks$popup <- paste0("Kiosk Location #", seq(1, nrow(kiosks)))
-new_tile_url <- 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
-new_tile_attribution_string <- '&copy;<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-map <- leaflet() %>% 
-  addTiles(urlTemplate = new_tile_url, 
-           attribution = new_tile_attribution_string, 
-           options = providerTileOptions(noWrap = TRUE)) %>% 
-  addMarkers(data = kiosks, lng=~longitude, lat=~latitude, popup=~popup, icon = bike)
-map
-
-# deriving the optimal route
-library(TSP);library(Imap)
 dist_matrix <- GeoDistanceInMetresMatrix(kiosks)
 tsp <- TSP(dist_matrix)
 tour <- solve_TSP(tsp)
 shrtpath = kiosks[cut_tour(tour,"1"),]
 write.csv(shrtpath, "./data/Ch7_optimal_maintenance_route.csv", row.names=FALSE)
-
-# plotting the service truck optimal route
-mpath <- read.csv("./data/Ch7_optimal_maintenance_route.csv",header=TRUE)
-map <- leaflet() %>%
-  addTiles() %>%
-  addCircleMarkers(data=mpath, lat = ~latitude, lng = ~longitude, 
-                   radius = 3, popup = ~as.character(paste0(latitude,",",longitude))) %>%
-  addPolylines(data=shrtpath, lng = ~longitude, lat = ~latitude, 
-               color = "#A93E36", opacity = .7)
-map

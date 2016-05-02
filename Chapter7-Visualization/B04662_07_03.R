@@ -4,12 +4,9 @@
 # Chapter 7, Part 3 - Interactive JavaScript Charting using rCharts
 
 message("Introduction to R for Business Intelligence
-Chapter 7 - Visualizing the Data’s Story
-Copyright (2016) Packt Publishing \n
-Let's continue to learn about Interactive JavaScript Charting")
-
-#
-# JavaScript Charts using rCharts
+        Chapter 7 - Visualizing the Data’s Story
+        Copyright (2016) Packt Publishing \n
+        Let's continue to learn about Interactive JavaScript Charting")
 
 library(rCharts)
 library(reshape2)
