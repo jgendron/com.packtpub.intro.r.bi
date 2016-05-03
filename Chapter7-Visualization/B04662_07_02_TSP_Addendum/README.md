@@ -31,7 +31,7 @@ A few links. E.g. There is some info if you search on [Google](https://www.googl
 
 ####About the Author
 
-Your name, your background, links to your twitter, github, linkedin, blogs, etc.
+.... Your name, your background, links to your twitter, github, linkedin, blogs, etc.
 
 License
 -------
