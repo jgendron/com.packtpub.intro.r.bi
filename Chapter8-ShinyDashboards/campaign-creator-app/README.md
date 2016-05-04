@@ -5,7 +5,7 @@
 
 A Shiny app designed for a custom cluster count and method, and access to a list of records based on cluster membership.
 
-![app_image](https://github.com/jgendron/com.packtpub.intro.r.bi/blob/master/campaign-creator-app/www/campaign-creator-app-screenshot.png)
+![app_image](https://github.com/jgendron/com.packtpub.intro.r.bi/blob/master/Chapter8-ShinyDashboards/campaign-creator-app-screenshot.png)
 
 ####Overview
 

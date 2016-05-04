@@ -5,7 +5,7 @@
 
 A simple Shiny App that predicts revenue from user inputted marketing expenditure via a linear regression model.
 
-![app_image](https://github.com/jgendron/com.packtpub.intro.r.bi/blob/master/Chapter8-ShinyDashboards/expenditures-revenue-app.png)
+![app_image](https://github.com/jgendron/com.packtpub.intro.r.bi/blob/master/Chapter8-ShinyDashboards/expenditures-revenue-app-screenshot.png)
 
 ####Overview
 
