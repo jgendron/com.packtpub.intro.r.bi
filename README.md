@@ -15,7 +15,7 @@ This is the code repository for the Packt Publishing book _Introduction to R for
 * Chapter 4: Regression Models for Business
 * Chapter 5: [Data Mining: Cluster Analysis](https://github.com/jgendron/com.packtpub.intro.r.bi/tree/master/Chapter5-ClusteringAnalysis)
 * Chapter 6: Time Series Analysis
-* Chapter 7: Telling the Data’s Story through Visualization
+* Chapter 7: [Visualizing the Data’s Story](https://github.com/jgendron/com.packtpub.intro.r.bi/tree/master/Chapter7-DataVisualization)
 * Chapter 8: [Web Dashboards with Shiny](https://github.com/jgendron/com.packtpub.intro.r.bi/tree/master/Chapter8-ShinyDashboards)
 
 ## Contacts
