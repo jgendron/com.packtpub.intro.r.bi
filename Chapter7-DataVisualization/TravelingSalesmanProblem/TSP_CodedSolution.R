@@ -1,13 +1,12 @@
 # Copyright 2016 Packt Publishing
 
 # Introduction to R for Business Intelligence
-# Chapter 7, Part 2 Addendum - Solving for Service Truck Optimization
+# Chapter 7, Addendum - Solving for Service Truck Optimization
 
 message("Introduction to R for Business Intelligence
         Chapter 7 - Visualizing the Data’s Story
         Copyright (2016) Packt Publishing \n
         Let's continue to learn about solving for service truck optimization")
-
 
 library(TSP)
 library(Imap)
@@ -52,7 +51,7 @@ GeoDistanceInMetresMatrix  = function(df.geopoints){
   df.geopoints$index <- 1:n.geopoints
   
   # Create a list of lists
-  list.geopoints <- by(df.geopoints[,c("index", "latitude", "longitude")], 1:n.geopoints, function(x){return(list(x))})
+  list.geopoints <- by(df.geopoints[ ,c("index", "latitude", "longitude")], 1:n.geopoints, function(x){return(list(x))})
   
   # Get a matrix of distances (in metres)
   mat.distances <- ReplaceLowerOrUpperTriangle(outer(list.geopoints, list.geopoints, GeoDistanceInMetres), "lower")
@@ -64,10 +63,10 @@ GeoDistanceInMetresMatrix  = function(df.geopoints){
   return(mat.distances)
 }
 
-kiosks <- read.csv("./data/Ch7_bike_kiosk_locations.csv",header=TRUE)
+kiosks <- read.csv("./data/Ch7_bike_kiosk_locations.csv",header = TRUE)
 
 dist_matrix <- GeoDistanceInMetresMatrix(kiosks)
 tsp <- TSP(dist_matrix)
 tour <- solve_TSP(tsp)
-shrtpath = kiosks[cut_tour(tour,"1"),]
-write.csv(shrtpath, "./data/Ch7_optimal_maintenance_route.csv", row.names=FALSE)
+shrtpath = kiosks[cut_tour(tour, "1"), ]
+write.csv(shrtpath, "./data/Ch7_optimal_maintenance_route.csv", row.names = FALSE)
