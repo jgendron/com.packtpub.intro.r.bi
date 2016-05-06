@@ -9,17 +9,8 @@ message("Introduction to R for Business Intelligence
         Let's continue to learn about Interactive JavaScript Charting")
 
 library(rCharts)
-library(reshape2)
 
-dat <- read.csv('./data/Ch7_email_marketing_campaign.csv', check.names = F)
-dat2 <- melt(dat[,c('Promotion', 
-                    'Opened Email', 'Clicked Email Link', 
-                    'Created Account', 'Paid for Membership')], 
-             id.vars='Promotion', 
-             variable.name = "Event", 
-             value.name = "Outcome")
-dat2$Outcome <- ifelse(dat2$Outcome == 'Y', 1, 0)
-aggregate <- aggregate(Outcome ~ Promotion + Event, FUN=sum, data=dat2)
+aggregate <-read.csv('./data/Ch7_email_marketing_outcomes.csv', check.names = F)
 n1 <- nPlot(Outcome ~ Event, group = "Promotion", data = aggregate, type = "multiBarChart")
 n1$xAxis(axisLabel = 'Event Type',
          staggerLabels = FALSE,
