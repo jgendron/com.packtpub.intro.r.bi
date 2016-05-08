@@ -64,15 +64,15 @@ shinyUI(
       # clusters to create
       column(3,
              sliderInput("cluster_count",
-                         label="How Many Clusters?",
-                         min=2, max=10, 
-                         value=6, step=1)
+                         label = "How Many Clusters?",
+                         min = 2, max = 10, 
+                         value = 6, step = 1)
       ),
       # allow the user to pick a clustering method
       # default to K-means
       column(6,
              radioButtons("cluster_method",
-                          label="Clustering Method?",
+                          label = "Clustering Method?",
                           choices = c("K-means", "Hierarchical"), 
                           selected = "K-means", 
                           inline = FALSE)

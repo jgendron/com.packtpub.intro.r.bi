@@ -22,8 +22,8 @@ shinyServer(function(input, output, session) {
     # because this code is inside a "reactive" function
     # it will always re-execute whenever the user
     # changes input$cluster_count or input$cluster_method
-    if (input$cluster_method == "K-means"){
-      kmeans_model <- kmeans(x = market[,c("age_scale", "inc_scale")], 
+    if (input$cluster_method == "K-means") {
+      kmeans_model <- kmeans(x = market[, c("age_scale", "inc_scale")], 
                              centers = input$cluster_count)
       result_dat$cluster_id <- as.factor(kmeans_model$cluster)
     } else {
@@ -86,8 +86,7 @@ shinyServer(function(input, output, session) {
     # add formats to the columns for ease of interpretation
     d <- d %>% 
       formatRound("Median Age", digits = 0) %>%
-      formatCurrency(c("Median Income", "Min. Income", "Max. Income"),
-                     digits = 0) %>%
+      formatCurrency(c("Median Income", "Min. Income", "Max. Income")) %>%
       formatStyle("Median Income", fontWeight = "bold",
                   background = styleColorBar(data = c(0, 125000),
                                              color = "#d5fdd5"),
@@ -122,19 +121,19 @@ shinyServer(function(input, output, session) {
     
     # the plotting method will change
     # based upon the clustering method
-    if(input$cluster_method == "Hierarchical"){
+    if (input$cluster_method == "Hierarchical") {
       
       # recompute the clusters
       # based on the user-specified
       # cluster count
       cent <- NULL
-      for(k in 1:cluster_count){
+      for (k in 1:cluster_count) {
         cent <- rbind(cent, colMeans(clustered_dataset()[clustered_dataset()$cluster_id == k,
                                                          c("age_scale",
                                                            "inc_scale"),
                                                          drop = FALSE]))
       }
-      cut_tree <- hclust(dist(cent)^2, method = "cen", 
+      cut_tree <- hclust(dist(cent) ^ 2, method = "cen", 
                     members = table(clustered_dataset()$cluster_id))
       
       # convert the cut tree to a dendrogram to 
@@ -169,11 +168,11 @@ shinyServer(function(input, output, session) {
                     select(xend,col), by = c("cluster_id" = "xend"))
       
       # create the plot of the dendrogram
-      p <- ggplot(ggdend, labels=F) +
+      p <- ggplot(ggdend, labels = F) +
         # add the labels at each leaf
-        geom_text(data=centers, 
+        geom_text(data = centers, 
                   aes(label = label, x = as.numeric(cluster_id), y = -.1, 
-                      size = 4, lineheight = .8, color=col), hjust = 0) +
+                      size = 4, lineheight = .8, color = col), hjust = 0) +
         # flip the axes and scale to fit the text
         coord_flip() +  
         scale_y_reverse(limits = c(max(ggdend$segments$yend) + .15,
@@ -184,14 +183,14 @@ shinyServer(function(input, output, session) {
         # more consistent with the K-means created plot
         ggtitle(paste(cluster_count, "- Cluster Model")) +
         theme_bw() +
-        theme(line=element_blank(), 
+        theme(line = element_blank(), 
               axis.text.x = element_blank(),
               axis.text.y = element_blank(), 
               axis.title.x = element_blank(),
               axis.title.y = element_blank(), 
               axis.ticks = element_blank(),
               plot.title = element_text(face = "bold", size = 20,
-                                        margin=margin(0, 0, 10, 0)))
+                                        margin = margin(0, 0, 10, 0)))
       
     } else {
       
@@ -214,8 +213,8 @@ shinyServer(function(input, output, session) {
         ylab("Income") +
         ggtitle(paste(cluster_count, "- Cluster Model")) + 
         theme_bw() + 
-        theme(plot.title=element_text(face = "bold", size=20,
-                                      margin=margin(0, 0, 10, 0)), 
+        theme(plot.title = element_text(face = "bold", size = 20,
+                                      margin = margin(0, 0, 10, 0)), 
               axis.title.x = element_text(margin = margin(10, 0, 0, 0)),
               axis.title.y = element_text(margin = margin(0, 10, 0, 0)))
     }
@@ -235,11 +234,21 @@ shinyServer(function(input, output, session) {
              income = round(income,2)) %>%
       ungroup() %>%
       arrange(-income_ptile) %>%
-      select("First Name", "Last Name", 
-             "Email", "Age" = age, "Income" = income, 
-             "Income %Tile within Cluster" = income_ptile, 
-             "Income %Tile Overall" = income_ptile_overall, 
-             "Cluster Id"=cluster_id)
+      select(`First Name`, `Last Name`,
+             `Email`, "Age" = age, "Income" = income,
+             "Income %Tile within Cluster" = income_ptile,
+             "Income %Tile Overall" = income_ptile_overall,
+             "Cluster Id" = cluster_id)
+    
+    
+    # select(`First Name`, `Last Name`,
+    #        `Email`, `Age`=age, `Income`=income,
+    #        `Income %Tile within Cluster`=income_ptile,
+    #        `Income %Tile Overall`=income_ptile_overall,
+    #        `Cluster Id`=cluster_id)
+    
+    
+    
     return(table_data)
   })
   
@@ -265,7 +274,7 @@ shinyServer(function(input, output, session) {
          escape = FALSE
          )
     
-    d <- d %>% formatCurrency("Income", digits=0) %>%
+    d <- d %>% formatCurrency("Income") %>%
       formatPercentage(c("Income %Tile within Cluster", 
                          "Income %Tile Overall"), digits = 1)
     
@@ -279,7 +288,7 @@ shinyServer(function(input, output, session) {
       paste0("CAMPAIGN_DATA_", format(Sys.Date(), "%Y-%m-%d"), ".csv")
     },
     content = function(file) {
-      write.csv(table_data()[input$campaign_table_rows_all, ], file,                                          row.names = FALSE)
+      write.csv(table_data()[input$campaign_table_rows_all, ], file, row.names = FALSE)
     },
     contentType = "text/csv"
   )
