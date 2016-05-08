@@ -239,16 +239,7 @@ shinyServer(function(input, output, session) {
              "Income %Tile within Cluster" = income_ptile,
              "Income %Tile Overall" = income_ptile_overall,
              "Cluster Id" = cluster_id)
-    
-    
-    # select(`First Name`, `Last Name`,
-    #        `Email`, `Age`=age, `Income`=income,
-    #        `Income %Tile within Cluster`=income_ptile,
-    #        `Income %Tile Overall`=income_ptile_overall,
-    #        `Cluster Id`=cluster_id)
-    
-    
-    
+     
     return(table_data)
   })
   
