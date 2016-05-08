@@ -265,7 +265,7 @@ shinyServer(function(input, output, session) {
          escape = FALSE
          )
     
-    d <- d %>% formatCurrency("Income") %>%
+    d <- d %>% formatCurrency("Income", digits = 0) %>%
       formatPercentage(c("Income %Tile within Cluster", 
                          "Income %Tile Overall"), digits = 1)
     
