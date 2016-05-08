@@ -34,12 +34,12 @@ There are 2 ways to run the app:
 	
 	`shiny::runGitHub(repo = 'com.packtpub.intro.r.bi',
 	                 username = 'jgendron', 
-	   				 subdir = 'Chapter8-ShinyDashboards/campaign-creator-app/')`
+	   				 subdir = 'Chapter8-ShinyDashboards/Ch8-CampaignCreatorApp/')`
 
 - Cloning the repository to have a local copy:
 	- In RStudio Select "New Project" from "Version Control"
 	- Enter the Clone URL for this repository
-	- `setwd('Chapter8-ShinyDashboards/campaign-creator-app')`
+	- `setwd('Chapter8-ShinyDashboards/Ch8-CampaignCreatorApp')`
 	- `shiny::runApp()`
 
 ####App Styling via CSS
