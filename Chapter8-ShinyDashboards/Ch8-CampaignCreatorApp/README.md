@@ -22,9 +22,12 @@ Our scenario for creating such an application is that the marketing team at Bike
 
 ####Installing Required Packages
 
-This Shiny app requires 8 packages:
+This Shiny app requires 9 packages:
 
-1. `install.packages(c('shiny', 'shinysky', 'DT', 'dplyr', 'ggplot2', 'scales', 'dendextend', 'RColorBrewer'))`
+1. `install.packages(c('shiny', 'shinysky', 'devtools', 'dplyr', 'ggplot2', 'scales', 'dendextend', 'RColorBrewer'))`
+2. `devtools::install_github('rstudio/DT')`
+
+- The `DT` package should be installed directly from GitHub because the version on CRAN as of 5/9/16 does not support some currency formatting options utilized in this app.
 
 ####Running the App Locally
 

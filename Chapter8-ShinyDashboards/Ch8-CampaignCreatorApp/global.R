@@ -20,6 +20,11 @@ suppressWarnings(suppressPackageStartupMessages(library(shinysky)))
 # inside web applications
 suppressWarnings(suppressPackageStartupMessages(library(DT)))
 
+# this code requires a version of DT that is not yet available via CRAN as of 5/9/16
+# so check that the installed version is a new enough
+stopifnot(packageVersion("DT")[1,2] >= 1, 
+          packageVersion("DT")[1,3] >= 38)
+
 # dplyr package contains easy to use functions for manipulating
 # data, which is a common task inside Shiny apps so that elements
 # render properly
