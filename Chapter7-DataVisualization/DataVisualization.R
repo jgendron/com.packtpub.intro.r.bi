@@ -9,20 +9,25 @@ message("Introduction to R for Business Intelligence
         Let's look at ways to visualize data")
 
 #
-# Visualizing Data
+# Plotting Using ggplot2
 
-viz <- read.csv("./data/Ch7_marketing.csv")
+plot_dat <- read.csv("./data/Ch7_marketing.csv")
+plot_dat$emp_size <- cut(plot_dat$employees, breaks = 3,
+          labels = c("Employees: 3 - 6", "7 - 9", "10+"))
+library(ggplot2); library(scales)
+plot <- ggplot(data = plot_dat, aes(x = marketing_total,
+                                    y = revenues))
 
-library(ggplot2)
-library(gridExtra)
-p1 <- ggplot(viz, aes(x = marketing_total, y = revenues))
-p2 <- p1 + geom_point(color = "blue", shape = 19)
-p3 <- p1 + geom_point(aes(color = pop_density)) +
-p4 <- p3 + xlab("Marketing Expenditures ($K)") +
-     ylab("Revenues ($K)")
+plot <- plot + facet_grid(. ~ emp_size) + 
+     geom_point(aes(color = pop_density), shape = 18, size = 4)
 
-grid.arrange(p1, p2, p3, p4, ncol = 2,
-             top = "Component buildup of a ggplot2")
+plot + scale_y_continuous(labels=dollar,
+                          breaks = pretty_breaks(n = 3)) +
+     scale_x_continuous(labels=dollar, 
+                        breaks = pretty_breaks(n = 3)) +
+     scale_color_discrete(guide = guide_legend(
+          title = "Population\nDensity")) +
+     xlab("Marketing Expenditures ($K)") + ylab("Revenues ($K)")
 
 #
 # Geo-mapping Using Leaflet
