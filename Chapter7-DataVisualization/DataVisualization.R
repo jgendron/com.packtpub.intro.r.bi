@@ -14,32 +14,37 @@ message("Introduction to R for Business Intelligence
 plot_dat <- read.csv("./data/Ch7_marketing.csv")
 plot_dat$emp_size <- cut(plot_dat$employees, breaks = 3,
           labels = c("Employees: 3 - 6", "7 - 9", "10+"))
-library(ggplot2); library(scales)
+suppressWarnings(suppressPackageStartupMessages(library(ggplot2)))
+suppressWarnings(suppressPackageStartupMessages(library(scales)))
 plot <- ggplot(data = plot_dat, aes(x = marketing_total,
                                     y = revenues))
 
 plot <- plot + facet_grid(. ~ emp_size) + 
      geom_point(aes(color = pop_density), shape = 18, size = 4)
 
-plot + scale_y_continuous(labels=dollar,
-                          breaks = pretty_breaks(n = 3)) +
-     scale_x_continuous(labels=dollar, 
-                        breaks = pretty_breaks(n = 3)) +
+plot + scale_y_continuous(labels = dollar,
+                          breaks = pretty_breaks(n = 5)) +
+     scale_x_continuous(labels = dollar, 
+                        breaks = pretty_breaks(n = 5)) +
      scale_color_discrete(guide = guide_legend(
           title = "Population\nDensity")) +
      xlab("Marketing Expenditures ($K)") + ylab("Revenues ($K)")
+rm(plot_dat, plot)
 
 #
 # Geo-mapping Using Leaflet
 
+# Learning geo-mapping
+
 kiosks <- read.csv("./data/Ch7_bike_kiosk_locations.csv")
 
-library(leaflet)
+suppressWarnings(suppressPackageStartupMessages(library(magrittr)))
+suppressWarnings(suppressPackageStartupMessages(library(leaflet)))
 leaflet() %>%
      addTiles() %>%
      addMarkers(data = kiosks, ~longitude, ~latitude)
 
-bike <- makeIcon("bike.png", iconWidth = 20,
+bike <- makeIcon("./data/bike.png", iconWidth = 20,
                  iconHeight = 20)
 kiosks$popup <- paste0("Kiosk Location #",
                        seq(1, nrow(kiosks)))
@@ -52,6 +57,10 @@ leaflet() %>%
               options = providerTileOptions(noWrap = TRUE)) %>%
      addMarkers(data = kiosks, lng = ~longitude, lat = ~latitude,
                 popup = ~popup, icon = bike)
+
+rm(kiosks, bike, new_tile_url, new_tile_attribution_string)
+
+# Extending geo-mapping functionality
 
 short_path <- read.csv("./data/Ch7_optimal_maint_route.csv")
 head(short_path)
@@ -66,24 +75,26 @@ leaflet() %>%
                   lng = ~longitude, color = "#A93E36",
                   opacity = .7)
 
+rm(short_path)
+
 #
-# Graphing Using rCharts
+# Creating Interactive Graphics Using rCharts
 
 dat <- read.csv("./data/Ch7_email_marketing_campaign.csv",
                 check.names = FALSE)
 head(dat)
 
-library(reshape2)
+suppressWarnings(suppressPackageStartupMessages(library(reshape2)))
 dat2 <- melt(dat[, 2:6], id.vars = "Promotion",
              variable.name = "Event", value.name = "Outcome")
 head(dat2)
 
 dat2$Outcome <- ifelse(dat2$Outcome == "Y", 1, 0)
-aggregate <- aggregate(Outcome ~ Promotion + Event, FUN=sum,
+aggregate <- aggregate(Outcome ~ Promotion + Event, FUN = sum,
                        data = dat2)
 aggregate
 
-library(rCharts)
+suppressWarnings(suppressPackageStartupMessages(library(rCharts)))
 n1 <- nPlot(Outcome ~ Event, group = "Promotion",
             data = aggregate, type = "multiBarChart")
 
@@ -97,8 +108,10 @@ n1$params$width <- 700
 n1$params$height <- 400
 n1
 
+rm(n1, aggregate, dat, dat2)
+
 dat <- read.csv("./data/Ch7_email_marketing_conversions.csv",
-                check.names=FALSE)
+                check.names = FALSE)
 head(dat)
 
 promotion1 <- dat[dat$Promotion == "10% off", 2:4]
