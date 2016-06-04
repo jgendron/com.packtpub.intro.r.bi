@@ -1,8 +1,8 @@
 # Introduction to R for Business Intelligence
 This is the code repository for the Packt Publishing book _**Introduction to R for Business Intelligence**_.
 
-[Available at Amazon](https://www.amazon.com/Introduction-Business-Intelligence-Jay-Gendron-ebook/dp/B01F7HCAWG)  
-[...or Packt Publishing](https://www.packtpub.com/big-data-and-business-intelligence/introduction-r-business-intelligence)
+Available on [Amazon](https://www.amazon.com/Introduction-Business-Intelligence-Jay-Gendron-ebook/dp/B01F7HCAWG)  
+or [Packt Publishing](https://www.packtpub.com/big-data-and-business-intelligence/introduction-r-business-intelligence)
 
 ## First edition
 * ISBN-10: 1785280250
