@@ -22,8 +22,11 @@ or [Packt Publishing](https://www.packtpub.com/big-data-and-business-intelligenc
 ## Contacts
 
 Follow the author on Twitter or LinkedIn:
-* [Jay Gendron](https://www.packtpub.com/books/info/authors/jay-gendron): [@jaygendron](https://twitter.com/jaygendron); [LinkedIn - jaygendron](https://www.linkedin.com/in/jaygendron)
+* [Jay Gendron](https://www.packtpub.com/books/info/authors/jay-gendron): [@jaygendron](https://twitter.com/jaygendron)
+  * [LinkedIn - jaygendron](https://www.linkedin.com/in/jaygendron)
+  * [GitHub Pages](http://jgendron.github.io)
+  * [GitHub Projects](https://github.com/jgendron/)
 
 Contributing Authors
 * Rick Jones: 
-* Steve Mortimer: 
+* Steve Mortimer: visit Steve's GitHub site at [https://github.com/ReportMort](https://github.com/ReportMort)
