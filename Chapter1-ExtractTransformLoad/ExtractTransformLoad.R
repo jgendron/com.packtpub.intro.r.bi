@@ -3,6 +3,11 @@
 # Introduction to R for Business Intelligence
 # Chapter 1 - Extract, Transform, and Load
 
+message("Introduction to R for Business Intelligence
+        Chapter 1 - Extract, Transform, and Load
+        Copyright (2016) Packt Publishing \n
+        This is your introduction to ETL")
+
 #
 # Extracting data from sources
 
@@ -16,18 +21,11 @@ str(bike)
 bike <- read.table("./data/Ch1_bike_sharing_data.csv",
                    sep = ",", header = TRUE)
 
-library(RODBC)
-connection <- odbcConnect(dsn = "ourDB", uid = "Paul", pwd = "R4BI")
-
-query <- "SELECT * FROM marketing"
-bike <- sqlQuery(connection, query)
-
-close(connection)
-
 #
 # Transforming data to fit analytic needs
 
-library(dplyr)
+if(!require("dplyr")) install.packages("dplyr")
+suppressMessages(suppressWarnings(library(dplyr)))
 extracted_rows <- filter(bike, registered == 0, season == 1 | season == 2)
 dim(extracted_rows)
 
