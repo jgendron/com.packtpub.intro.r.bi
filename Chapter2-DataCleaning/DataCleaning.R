@@ -3,17 +3,23 @@
 # Introduction to R for Business Intelligence
 # Chapter 2 - Data Cleaning
 
+message("Introduction to R for Business Intelligence
+        Chapter 2 - Data Cleaning
+        Copyright (2016) Packt Publishing \n
+        This is your introduction to data cleaning")
+
 #
-# Summarizing your data for inspection
+# Summarizing your Data for Inspection
 bike <- read.csv("./data/Ch2_raw_bikeshare_data.csv",
                  stringsAsFactors = FALSE)
 str(bike)
 
 #
-# Finding and fixing missing data values
+# Finding and Fixing Flawed Data
 table(is.na(bike))
 
-library(stringr)
+if(!require("stringr")) install.packages("stringr")
+suppressMessages(suppressWarnings(library(stringr)))
 str_detect(bike, "NA")
 table(is.na(bike$sources))
 
@@ -25,7 +31,7 @@ bike$humidity <- str_replace_all(bike$humidity, bad_data, "61")
 bike[location, ]
 
 #
-#  Converting inputs to data types suited for analysis
+#  Converting Inputs to Data Types Suited for Analysis
 bike$humidity <- as.numeric(bike$humidity)
 
 bike$holiday <- factor(bike$holiday, levels = c(0, 1),
@@ -46,12 +52,13 @@ bike$weather <- factor(bike$weather, levels = c(1, 2, 3, 4),
                       ordered = TRUE )
 str(bike)
 
-library(lubridate)
+if(!require("lubridate")) install.packages("lubridate")
+suppressMessages(suppressWarnings(library(lubridate)))
 bike$datetime <- mdy_hm(bike$datetime)
 str(bike)
 
 #
-## Adapting string variables to a standard
+## Adapting String Variables to a Standard
 unique(bike$sources)
 
 bike$sources <- tolower(bike$sources)
@@ -60,7 +67,8 @@ na_loc <- is.na(bike$sources)
 bike$sources[na_loc] <- "unknown"
 unique(bike$sources)
 
-library(DataCombine)
+if(!require("DataCombine")) install.packages("DataCombine")
+suppressMessages(suppressWarnings(library(DataCombine)))
 web_sites <- "(www.[a-z]*.[a-z]*)"
 current <- unique(str_subset(bike$sources, web_sites))
 replace <- rep("web", length(current))
