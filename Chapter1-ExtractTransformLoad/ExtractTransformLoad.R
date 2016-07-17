@@ -11,8 +11,6 @@ message("Introduction to R for Business Intelligence
 #
 # Extracting data from sources
 
-bike <- read.csv("Ch1_bike_sharing_data.csv")
-
 getwd()
 
 bike <- read.csv("./data/Ch1_bike_sharing_data.csv")
