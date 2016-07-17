@@ -9,7 +9,7 @@ message("Introduction to R for Business Intelligence
         This is your introduction to ETL")
 
 #
-# Extracting data from sources
+# Extracting Data from Sources
 
 getwd()
 
@@ -20,7 +20,7 @@ bike <- read.table("./data/Ch1_bike_sharing_data.csv",
                    sep = ",", header = TRUE)
 
 #
-# Transforming data to fit analytic needs
+# Transforming Data to Fit Analytic Needs
 
 if(!require("dplyr")) install.packages("dplyr")
 suppressMessages(suppressWarnings(library(dplyr)))
@@ -39,7 +39,7 @@ grouped <- group_by(add_revenue, season)
 report <- summarise(grouped, sum(casual), sum(revenue))
 
 #
-# Loading data into business systems
+# Loading Data into Business systems for Analysis
 
 write.csv(report, "revenue_report.csv", row.names = FALSE)
 
