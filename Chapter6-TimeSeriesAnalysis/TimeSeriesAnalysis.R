@@ -109,31 +109,28 @@ acf(monthly, xlim = c(0, 2))
 pacf(monthly, xlim = c(0, 2))
 par(mfrow = c(1, 1))
 
-fit <- arima(monthly, c(1, 0, 0),
+fit1 <- arima(monthly, c(1, 0, 0),
              seasonal = list(order = c(0, 0, 0)))
-fit; tsdiag(fit)
+fit1; tsdiag(fit1)
 
-fit <- arima(monthly, c(1, 1, 0),
+fit2 <- arima(monthly, c(1, 1, 0),
              seasonal = list(order = c(0, 0, 0)))
-fit; tsdiag(fit)
+fit2; tsdiag(fit2)
 
-dpfit <- arima(monthly, c(2, 1, 0),
+fit3 <- arima(monthly, c(2, 1, 0),
              seasonal = list(order = c(0, 0, 0)))
-fit; tsdiag(fit)
+fit3; tsdiag(fit3)
 
-fit <- arima(monthly, c(1, 1, 0),
+fit4 <- arima(monthly, c(1, 1, 0),
              seasonal = list(order = c(0, 1, 0)))
-fit; tsdiag(fit)
+fit4; tsdiag(fit4)
 
-fit <- arima(monthly, c(0, 1, 1),
+fit5 <- arima(monthly, c(0, 1, 1),
              seasonal = list(order = c(0, 0, 0)))
-fit; tsdiag(fit)
-
-fit <- arima(monthly, c(1, 1, 0),
-             seasonal = list(order = c(0, 0, 0)))
+fit5; tsdiag(fit5)
 
 suppressMessages(suppressWarnings(library(forecast)))
-yr_forecast <- forecast(fit, h = 12)
+yr_forecast <- forecast(fit2, h = 12)
 plot(yr_forecast)
 
 # Using advanced functionality to model
