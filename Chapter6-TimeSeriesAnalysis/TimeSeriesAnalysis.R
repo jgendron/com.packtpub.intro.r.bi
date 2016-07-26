@@ -71,6 +71,7 @@ plot(y, type = "b", ylim = c(-.1, 3))
 plot(diff(y), ylim = c(-.1, 3), xlim = c(0, 36))
 plot(diff(diff(y), lag = 12), ylim = c(-.1, 3), xlim = c(0, 36))
 par(mfrow = c(1, 1))
+detach(package:TSA, unload=TRUE)
 rm(y, seq_down, seq_up)
 
 #
@@ -116,7 +117,7 @@ fit <- arima(monthly, c(1, 1, 0),
              seasonal = list(order = c(0, 0, 0)))
 fit; tsdiag(fit)
 
-fit <- arima(monthly, c(2, 1, 0),
+dpfit <- arima(monthly, c(2, 1, 0),
              seasonal = list(order = c(0, 0, 0)))
 fit; tsdiag(fit)
 
