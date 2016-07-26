@@ -9,8 +9,9 @@ message("Introduction to R for Business Intelligence
         This is your introduction to time series analysis")
 
 #
-# Looking at Time-Based Data with Linear Regression
+# Analyzing Time Series Data with Linear Regression
 
+if(!require("TSA")) install.packages("TSA")
 suppressMessages(suppressWarnings(library(TSA)))
 data(airpass)
 detach(package:TSA)
@@ -26,7 +27,7 @@ colnames(airpass_df) <- c("volume", "time")
 lmfit <- lm(volume ~ time, data = airpass_df)
 summary(lmfit)
 
-# Linearity, Normality and Equal Variance
+# Linearity, normality and equal variance
 
 par(mfrow = c(1, 3))
 plot(airpass_df$time, airpass_df$volume, pch = 19,
@@ -36,7 +37,7 @@ plot(lmfit$fitted.values, lmfit$residuals,
      main = "Equal Variance?", pch = 19); abline(h = 0)
 par(mfrow = c(1, 1))
 
-# Prediction and Confidence Intervals
+# Prediction and confidence intervals
 
 plot(airpass, main = "95 Percent Confidence and Prediction Intervals of airpass Data")
 abline(lmfit, col = "blue")
@@ -56,6 +57,7 @@ rm(airpass_df, newdata, pred, time, volume, lmfit)
 #
 # Introducing Key Elements of Time Series Analysis
 
+if(!require("forecast")) install.packages("forecast")
 suppressMessages(suppressWarnings(library(forecast)))
 plot(decompose(airpass))
 
@@ -72,14 +74,16 @@ par(mfrow = c(1, 1))
 rm(y, seq_down, seq_up)
 
 #
-# Building ARIMA Models
+# Building ARIMA Time Series Models
 
-# Selecting a Model to Make Forecasts
+# Selecting a model to make forecasts
 
 cycle <- read.csv("./data/Ch6_ridership_data_2011-2012.csv")
 head(cycle)
 
+if(!require("dplyr")) install.packages("dplyr")
 suppressMessages(suppressWarnings(library(dplyr)))
+if(!require("lubridate")) install.packages("lubridate")
 suppressMessages(suppressWarnings(library(lubridate)))
 monthly_ride <- as.data.frame(cycle %>%
           group_by(year = year(datetime),
@@ -131,7 +135,7 @@ suppressMessages(suppressWarnings(library(forecast)))
 yr_forecast <- forecast(fit, h = 12)
 plot(yr_forecast)
 
-# Using Advanced Functionality to Model
+# Using advanced functionality to model
 
 monthly_data <- tbats(monthly)
 year_forecast <- forecast(monthly_data, h = 12)
