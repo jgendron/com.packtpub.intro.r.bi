@@ -16,6 +16,8 @@ str(bike)
 
 #
 # Finding and Fixing Flawed Data
+
+# Missing values
 table(is.na(bike))
 
 if(!require("stringr")) install.packages("stringr")
@@ -23,15 +25,19 @@ suppressMessages(suppressWarnings(library(stringr)))
 str_detect(bike, "NA")
 table(is.na(bike$sources))
 
+# Erroneous values
 bad_data <- str_subset(bike$humidity, "[a-z A-Z]")
 location <- str_detect(bike$humidity, bad_data)
 bike[location, ]
 
+# Fixing flaws in datasets
 bike$humidity <- str_replace_all(bike$humidity, bad_data, "61")
 bike[location, ]
 
 #
 #  Converting Inputs to Data Types Suited for Analysis
+
+# Converting between data types
 bike$humidity <- as.numeric(bike$humidity)
 
 bike$holiday <- factor(bike$holiday, levels = c(0, 1),
@@ -52,6 +58,7 @@ bike$weather <- factor(bike$weather, levels = c(1, 2, 3, 4),
                       ordered = TRUE )
 str(bike)
 
+# Date and time conversions
 if(!require("lubridate")) install.packages("lubridate")
 suppressMessages(suppressWarnings(library(lubridate)))
 bike$datetime <- mdy_hm(bike$datetime)
@@ -67,6 +74,7 @@ na_loc <- is.na(bike$sources)
 bike$sources[na_loc] <- "unknown"
 unique(bike$sources)
 
+# The power of seven, plus or minus two
 if(!require("DataCombine")) install.packages("DataCombine")
 suppressMessages(suppressWarnings(library(DataCombine)))
 web_sites <- "(www.[a-z]*.[a-z]*)"
@@ -78,6 +86,8 @@ bike <- FindReplace(data = bike, Var = "sources", replacements,
 unique(bike$sources)
 
 bike$sources <- as.factor(bike$sources)
+
+# Data ready for analysis
 str(bike)
 
 write.csv(bike, "Ch2_clean_bike_sharing_data.csv",
