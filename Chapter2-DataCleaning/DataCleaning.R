@@ -42,7 +42,7 @@ bike$humidity <- as.numeric(bike$humidity)
 
 bike$holiday <- factor(bike$holiday, levels = c(0, 1),
                        labels = c("no", "yes"))
-bike$workingday <- factor(bike$workingday, levels=c(0, 1),
+bike$workingday <- factor(bike$workingday, levels = c(0, 1),
                           labels = c("no", "yes"))
 
 bike$season <- factor(bike$season, levels = c(1, 2, 3, 4),
