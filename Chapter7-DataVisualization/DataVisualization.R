@@ -108,7 +108,7 @@ aggregate
 if(!require("devtools")) install.packages("devtools")
 suppressMessages(suppressWarnings(library(devtools)))
 
-install_github(repo = ‘ramnathv/rCharts’)
+install_github(repo = 'ramnathv/rCharts')
 suppressMessages(suppressWarnings(library(rCharts)))
 n1 <- nPlot(Outcome ~ Event, group = "Promotion",
             data = aggregate, type = "multiBarChart")
