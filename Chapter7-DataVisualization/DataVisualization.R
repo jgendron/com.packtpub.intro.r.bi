@@ -9,13 +9,19 @@ message("Introduction to R for Business Intelligence
         Let's look at ways to visualize data")
 
 #
+# Visualizing Data
+
+#
 # Plotting Using ggplot2
 
 plot_dat <- read.csv("./data/Ch7_marketing.csv")
 plot_dat$emp_size <- cut(plot_dat$employees, breaks = 3,
           labels = c("Employees: 3 - 6", "7 - 9", "10+"))
-suppressWarnings(suppressPackageStartupMessages(library(ggplot2)))
-suppressWarnings(suppressPackageStartupMessages(library(scales)))
+
+if(!require("ggplot2")) install.packages("ggplot2")
+suppressMessages(suppressWarnings(library(ggplot2)))
+if(!require("scales")) install.packages("scales")
+suppressMessages(suppressWarnings(library(scales)))
 plot <- ggplot(data = plot_dat, aes(x = marketing_total,
                                     y = revenues))
 
@@ -38,8 +44,10 @@ rm(plot_dat, plot)
 
 kiosks <- read.csv("./data/Ch7_bike_kiosk_locations.csv")
 
-suppressWarnings(suppressPackageStartupMessages(library(magrittr)))
-suppressWarnings(suppressPackageStartupMessages(library(leaflet)))
+if(!require("magrittr")) install.packages("magrittr")
+suppressMessages(suppressWarnings(library(magrittr)))
+if(!require("leaflet")) install.packages("leaflet")
+suppressMessages(suppressWarnings(library(leaflet)))
 leaflet() %>%
      addTiles() %>%
      addMarkers(data = kiosks, ~longitude, ~latitude)
@@ -80,11 +88,14 @@ rm(short_path)
 #
 # Creating Interactive Graphics Using rCharts
 
+# Learning interactive graphing with JavaScript
+
 dat <- read.csv("./data/Ch7_email_marketing_campaign.csv",
                 check.names = FALSE)
 head(dat)
 
-suppressWarnings(suppressPackageStartupMessages(library(reshape2)))
+if(!require("reshape2")) install.packages("reshape2")
+suppressMessages(suppressWarnings(library(reshape2)))
 dat2 <- melt(dat[, 2:6], id.vars = "Promotion",
              variable.name = "Event", value.name = "Outcome")
 head(dat2)
@@ -94,7 +105,8 @@ aggregate <- aggregate(Outcome ~ Promotion + Event, FUN = sum,
                        data = dat2)
 aggregate
 
-suppressWarnings(suppressPackageStartupMessages(library(rCharts)))
+if(!require("rCharts")) install.packages("rCharts")
+suppressMessages(suppressWarnings(library(rCharts)))
 n1 <- nPlot(Outcome ~ Event, group = "Promotion",
             data = aggregate, type = "multiBarChart")
 
