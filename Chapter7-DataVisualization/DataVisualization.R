@@ -42,7 +42,7 @@ rm(plot_dat, plot)
 
 # Learning geo-mapping
 
-kiosks <- read.csv("./data/Ch7_bike_kiosk_locations.csv")
+stations <- read.csv("./data/Ch7_bike_station_locations.csv")
 
 if(!require("magrittr")) install.packages("magrittr")
 suppressMessages(suppressWarnings(library(magrittr)))
@@ -50,12 +50,12 @@ if(!require("leaflet")) install.packages("leaflet")
 suppressMessages(suppressWarnings(library(leaflet)))
 leaflet() %>%
      addTiles() %>%
-     addMarkers(data = kiosks, ~longitude, ~latitude)
+     addMarkers(data = stations, ~longitude, ~latitude)
 
 bike <- makeIcon("./data/bike.png", iconWidth = 20,
                  iconHeight = 20)
-kiosks$popup <- paste0("Kiosk Location #",
-                       seq(1, nrow(kiosks)))
+stations$popup <- paste0("Station Location #",
+                       seq(1, nrow(stations)))
 new_tile_url <- "http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
 new_tile_attribution_string <- '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>&copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
 
@@ -63,10 +63,10 @@ leaflet() %>%
      addTiles(urlTemplate = new_tile_url,
               attribution = new_tile_attribution_string,
               options = providerTileOptions(noWrap = TRUE)) %>%
-     addMarkers(data = kiosks, lng = ~longitude, lat = ~latitude,
+     addMarkers(data = stations, lng = ~longitude, lat = ~latitude,
                 popup = ~popup, icon = bike)
 
-rm(kiosks, bike, new_tile_url, new_tile_attribution_string)
+rm(stations, bike, new_tile_url, new_tile_attribution_string)
 
 # Extending geo-mapping functionality
 
