@@ -3,16 +3,15 @@
 # Introduction to R for Business Intelligence
 # Chapter 4 - Linear Regression for Business
 
-welcome <- function() {
-     message("Introduction to R for Business Intelligence")
-     message("Chapter 4 - Linear Regression for Business")
-     message("Copyright (2016) Packt Publishing \n")
-     message("Welcome. Let's learn linear regression.")
-}
-welcome()
+message("Introduction to R for Business Intelligence 
+        Chapter 4 - Linear Regression for Business
+        Copyright (2016) Packt Publishing \n
+        Welcome. Let's learn linear regression.")
 
 #
 # Understanding Linear Regression
+
+# The lm() function
 
 adverts <- read.csv("./data/Ch4_marketing.csv"); str(adverts)
 
@@ -20,8 +19,12 @@ pairs(adverts)
 plot(adverts$marketing_total, adverts$revenues, ylab = "Revenues", 
      xlab = "Marketing Total", main = "Revenues and Marketing")
 
+# Simple linear regression (SLR)
+
 model1 <- lm(revenues ~ marketing_total, data = adverts)
 model1
+
+# Residuals
 
 plot(adverts$marketing_total, adverts$revenues, 
      ylab = "Revenues", xlab = "Marketing",
@@ -37,12 +40,16 @@ axis(1, at = c(53.6, 100, 150, 200, 250))
 #
 # Checking Model Assumptions
 
+# Normality
+
 par(mfrow = c(1, 2))
 hist(model1$residuals, xlab = "Residuals", col = "gray",
      main = "Residuals Distribution")
 
 qqnorm(model1$residuals, main = "Q-Q Plot of Residuals")
 qqline(model1$residuals) 
+
+# Equal variance
 
 par(mfrow = c(1, 1))
 plot(model1$fitted.values, model1$residuals, ylab = "Residuals",
@@ -52,10 +59,16 @@ abline(0, 0, lwd = 3); abline(h = c(-6.5, 6.5), lwd = 3, lty = 3)
 #
 # Using a Simple Linear Regression
 
+# Interpreting model output
+
 summary(model1)
 
+# Predicting unknown outputs with an SLR
+
 range(adverts$marketing_total)
-suppressWarnings(suppressMessages(library(dplyr)))
+
+if(!require("dplyr")) install.packages("dplyr")
+suppressMessages(suppressWarnings(library(dplyr)))
 select(adverts, marketing_total) %>% filter(marketing_total > 430)
 
 newdata <- data.frame(marketing_total = 460)
@@ -66,6 +79,8 @@ predict.lm(model1, newdata, level = 0.90, interval = "predict")
 
 newdata = data.frame(marketing_total = c(450, 460, 470))
 predict.lm(model1, newdata, interval = "predict")
+
+# Working with Big Data using confidence intervals
 
 set.seed(4510)
 market_sample <- sample_frac(adverts, 0.30, replace = FALSE)
@@ -88,6 +103,8 @@ hist(fit0$residuals, main = "Normality?", col = "gray")
 plot(fit0$fitted.values, fit0$residuals, 
      main = "Equal Variance?", pch = 19); abline(h = 0)
 
+# Transforming data
+
 y0_t <- y0^2
 fit0_t <- lm(y0_t ~ x0)
 
@@ -97,7 +114,8 @@ plot(fit0_t$fitted.values, fit0_t$residuals,
      main = "Equal Variance", pch = 19); abline(h = 0)
 par(mfrow = c(1, 1))
 
-suppressMessages(library(MASS))
+if(!require("MASS")) install.packages("MASS")
+suppressMessages(suppressWarnings(library(MASS)))
 boxcox(fit0)
 
 x1 <- c(1, 5, 15, 30, 60, 120, 240, 480,
@@ -120,6 +138,8 @@ hist(fit1_t$residuals, main = "Normal", col = "gray")
 plot(fit1_t$fitted.values, fit1_t$residuals, 
      main = "Equal Variance", pch = 19); abline(h = 0)
 
+# Handling outliers and influential points
+
 x2 <- 1:20
 y2 <- c(1:10, 4, 12:20)
 fit2 <- lm(y2 ~ x2)
@@ -134,6 +154,9 @@ plot(x2, y2, pch = 19, main = "Outlier is Influential")
 abline(fit2)
 plot(x3, y3, pch = 19, main = "Outlier is not Influential")
 abline(fit3)
+
+#------------
+# You practice
 
 x4 <- c(1:20)
 y4 <- c(0.4, 2.2, 2.2, 5.6, 5.3, 5.2, 7.5, 8.7,
@@ -153,6 +176,7 @@ summary(fit4_t)
 
 par(mfrow = c(2, 2))
 plot(fit4)
+#------------
 
 #
 # Introduction to Multiple Linear Regression
