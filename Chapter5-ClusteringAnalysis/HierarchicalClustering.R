@@ -125,12 +125,6 @@ market$clus6 <- six$cluster
 dend_six <- cutree(dend, k = 6)
 market$dend6 <- dend_six
 
-par(mfrow = c(1, 2))
-image(table(market$clus5, market$dend5),
-      main = "five clusters", xaxt = 'n', yaxt = 'n')
-image(table(market$clus6, market$dend6),
-      main = "six clusters", xaxt = 'n', yaxt = 'n')
-
 # Choosing a Model
 par(mfrow = c(2, 2), mar = c(3, 4, 4, 2) + 0.1)
 plot(market$age, market$income, col = five$cluster,
