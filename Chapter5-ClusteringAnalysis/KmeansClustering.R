@@ -51,7 +51,7 @@ plot(clus$longitude, clus$latitude, col = three$cluster, asp = 1,
      xlab = "Longitude",  ylab = "Latitude")
 points(three$centers[ ,2], three$centers[ ,1],
        pch = 23, col = 'maroon', bg = 'lightblue', cex = 3)
-text(three$centers[,2], three$centers[,1], cex = 1.1,
+text(three$centers[ ,2], three$centers[ ,1], cex = 1.1,
      col = 'black', attributes(three$centers)$dimnames[[1]])
 par(mfrow = c(1, 1))
 
