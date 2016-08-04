@@ -36,6 +36,16 @@ rm(three)
 market$age_scale <- as.numeric(scale(market$age))
 market$inc_scale <- as.numeric(scale(market$income))
 
+set.seed(789)
+three <- kmeans(market[,4:5], 3)
+plot(market$age, market$inc, col=three$cluster, xlab = 'age',
+     ylab = 'income', main = 'K-means without Scaling')
+points(three$centers[,1], three$centers[,2], 
+       pch = 23, col = 'maroon', bg = 'lightblue', cex = 3)
+text(three$centers[, 1], three$centers[, 2], cex = 1.1,
+     col = 'black', attributes(three$centers)$dimnames[[1]])
+rm(three)
+
 # Running the hclust() Function
 set.seed(456)
 hc_mod <- hclust(dist(market[ ,4:5]), method = "ward.D2")
@@ -43,6 +53,7 @@ hc_mod <- hclust(dist(market[ ,4:5]), method = "ward.D2")
 # Visualizing the Model Output
 dend <- as.dendrogram(hc_mod)
 
+if(!require("dendextend")) install.packages("dendextend")
 suppressMessages(suppressWarnings(library(dendextend)))
 dend_six_color <- color_branches(dend, k = 6)
 plot(dend_six_color, leaflab = "none", horiz = TRUE,
@@ -134,6 +145,7 @@ plot(market$age, market$income, col = market$dend6, ylab = '',
 par(mfrow = c(1, 1), mar = c(5, 4, 4, 2) + 0.1)
 
 # Preparing the Results
+if(!require("dplyr")) install.packages("dplyr")
 suppressMessages(suppressWarnings(library(dplyr)))
 labels <- as.data.frame(market %>% 
      group_by(dend6) %>% 

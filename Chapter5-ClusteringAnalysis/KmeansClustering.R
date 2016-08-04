@@ -12,7 +12,7 @@ Welcome. Let's learn k-means clustering")
 # Partitioning Using K-means Clustering
 
 # Exploring the Data
-stations <- read.csv("./data/Ch5_bike_kiosk_locations.csv")
+stations <- read.csv("./data/Ch5_bike_station_locations.csv")
 summary(stations)
 
 par(mfrow = c(1, 3))
@@ -108,6 +108,7 @@ for (e in 1:dim(compare[1])[1]) {
      compare[e, 6] <- distance3(compare[e, 1], compare[e, 2], compare[e, 4])
 }
 
+if(!require("dplyr")) install.packages("dplyr")
 suppressMessages(suppressWarnings(library(dplyr)))
 compare <- cbind(compare, hybrid = rep(0,dim(compare)[1]))
 
