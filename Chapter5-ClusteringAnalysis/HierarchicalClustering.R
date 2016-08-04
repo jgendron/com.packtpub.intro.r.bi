@@ -38,8 +38,9 @@ market$inc_scale <- as.numeric(scale(market$income))
 
 set.seed(789)
 three <- kmeans(market[,4:5], 3)
-plot(market$age, market$inc, col=three$cluster, xlab = 'age',
-     ylab = 'income', main = 'K-means without Scaling')
+plot(market$age_scale, market$inc_scale, col=three$cluster,
+     xlab = 'age', ylab = 'income',
+     main = 'K-means with Scaling')
 points(three$centers[,1], three$centers[,2], 
        pch = 23, col = 'maroon', bg = 'lightblue', cex = 3)
 text(three$centers[, 1], three$centers[, 2], cex = 1.1,
@@ -74,27 +75,6 @@ seven <- kmeans(market[,4:5], 7)
 eight <- kmeans(market[,4:5], 8)
 nine <- kmeans(market[,4:5], 9)
 ten <- kmeans(market[,4:5], 10)
-
-par(mfrow = c(2, 2), mar = c(3, 4, 6, 2) + 0.1)
-plot(market$age_scale, market$inc_scale, col=three$cluster,asp=1)
-points(three$centers[,1], three$centers[,2],
-       pch = 23, col = 'maroon', bg = 'lightblue')
-
-plot(market$age_scale, market$inc_scale, col=four$cluster,asp=1)
-points(four$centers[,1], four$centers[,2], 
-       pch = 23, col = 'maroon', bg = 'lightblue')
-
-par(mar = c(5, 4, 4, 2) + 0.1)
-
-plot(market$age_scale, market$inc_scale, col=five$cluster,asp=1)
-points(five$centers[,1], five$centers[,2], 
-       pch = 23, col = 'maroon', bg = 'lightblue')
-
-plot(market$age_scale, market$inc_scale, col=six$cluster,asp=1)
-points(six$centers[,1], six$centers[,2], 
-       pch = 23, col = 'maroon', bg = 'lightblue')
-par(mfrow = c(1, 1))
-mtext("K-Means Exploratory Plots", outer = FALSE, cex = 1.5)
 
 # Evaluting the Models
 optimize <- data.frame(clusters=c(2:10), wss = rep(0, 9))
