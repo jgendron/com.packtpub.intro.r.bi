@@ -3,7 +3,8 @@
 # Introduction to R for Business Intelligence
 # Chapter 8, server.R file - Web Dashboards with Shiny
 
-library(shiny)
+if(!require("shiny")) install.packages("shiny")
+suppressMessages(suppressWarnings(library(shiny)))
 
 revenue <- read.csv("./data/Ch8_marketing.csv")
 model <- lm(revenues ~ marketing_total, data = revenue)

@@ -3,7 +3,8 @@
 # Introduction to R for Business Intelligence
 # Chapter 8, ui.R file - Web Dashboards with Shiny
 
-library(shiny)
+if(!require("shiny")) install.packages("shiny")
+suppressMessages(suppressWarnings(library(shiny)))
 
 shinyUI(fluidPage(
      
