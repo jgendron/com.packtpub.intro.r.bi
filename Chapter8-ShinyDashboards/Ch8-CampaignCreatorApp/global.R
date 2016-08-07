@@ -3,6 +3,8 @@
 # default strings to characters to 
 # avoid potential factor-related issues
 options(stringsAsFactors = FALSE)
+if (!require(devtools)) install.packages("devtools")
+suppressWarnings(suppressPackageStartupMessages(library(devtools)))
 
 # load all packages used by the shiny app here in a central location
 # suppressing warnings and messages are simply for convenience
@@ -14,17 +16,18 @@ suppressWarnings(suppressPackageStartupMessages(library(shiny)))
 # shinysky package contains an easy to implement progress wheel
 # so that users can be alerted when the app is running a calculation
 # and need to wait for it to finish before proceeding
-if(!require("shinysky")) install.packages("shinysky")
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("AnalytixWare/ShinySky")
 suppressWarnings(suppressPackageStartupMessages(library(shinysky)))
 
 # DT package provides an interface to the jQuery Plug-in DataTables,
 # which is a feature-rich, interactive framework for displaying tables
 # inside web applications
-if(!require("DT")) install.packages("DT")
+install_github(repo = 'rstudio/DT')
 suppressWarnings(suppressPackageStartupMessages(library(DT)))
 
 # this code requires a version of DT that is not yet available via CRAN as of 5/9/16
-# so check that the installed version is a new enough
+# so check that the installed version is new enough
 stopifnot(packageVersion("DT")[1,2] >= 1, 
           packageVersion("DT")[1,3] >= 38)
 
