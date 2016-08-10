@@ -71,7 +71,6 @@ plot(y, type = "b", ylim = c(-.1, 3))
 plot(diff(y), ylim = c(-.1, 3), xlim = c(0, 36))
 plot(diff(diff(y), lag = 12), ylim = c(-.1, 3), xlim = c(0, 36))
 par(mfrow = c(1, 1))
-detach(package:TSA, unload=TRUE)
 rm(y, seq_down, seq_up)
 
 #
