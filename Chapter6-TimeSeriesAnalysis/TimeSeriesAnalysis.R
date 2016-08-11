@@ -14,7 +14,6 @@ message("Introduction to R for Business Intelligence
 if(!require("TSA")) install.packages("TSA")
 suppressMessages(suppressWarnings(library(TSA)))
 data(airpass)
-detach(package:TSA)
 str(airpass)
 summary(airpass)
 
@@ -31,7 +30,8 @@ summary(lmfit)
 
 par(mfrow = c(1, 3))
 plot(airpass_df$time, airpass_df$volume, pch = 19,
-     main = "Linearity?"); abline(lmfit)
+     main = "Linearity?")
+abline(lmfit)
 hist(lmfit$residuals, main = "Normality?", col = "gray")
 plot(lmfit$fitted.values, lmfit$residuals, 
      main = "Equal Variance?", pch = 19); abline(h = 0)
@@ -71,6 +71,7 @@ plot(y, type = "b", ylim = c(-.1, 3))
 plot(diff(y), ylim = c(-.1, 3), xlim = c(0, 36))
 plot(diff(diff(y), lag = 12), ylim = c(-.1, 3), xlim = c(0, 36))
 par(mfrow = c(1, 1))
+detach(package:TSA, unload=TRUE)
 rm(y, seq_down, seq_up)
 
 #
