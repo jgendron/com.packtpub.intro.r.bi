@@ -31,7 +31,7 @@ plot(adverts$marketing_total, adverts$revenues,
      main = "Revenues versus Marketing", 
      xlim = c(50, 150), xaxt = "n")
 abline(model1)
-segments(x0 = 53.6, y0 = 31.0, x1 = 53.6, y1 =34.68, lwd = 2,
+segments(x0 = 53.6, y0 = 31.0, x1 = 53.6, y1 = 34.68, lwd = 2,
          lty = 3)
 text(x = 57.5, y = 30.5, labels = "A")
 text(x = 54.0, y = 36.3, labels = "P")
@@ -80,7 +80,7 @@ predict.lm(model1, newdata, level = 0.90, interval = "predict")
 newdata = data.frame(marketing_total = c(450, 460, 470))
 predict.lm(model1, newdata, interval = "predict")
 
-# Working with Big Data using confidence intervals
+# Working with big data using confidence intervals
 
 set.seed(4510)
 market_sample <- sample_frac(adverts, 0.30, replace = FALSE)
