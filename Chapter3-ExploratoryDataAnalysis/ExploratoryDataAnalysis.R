@@ -41,7 +41,7 @@ sapply(anscombe, var)
 
 plot(marketing$pop_density)
 
-par(mfrow = c(1,2))
+par(mfrow = c(1, 2))
 boxplot(marketing$google_adwords, ylab = "Expenditures")
 hist(marketing$google_adwords, main = NULL)
 
@@ -49,7 +49,7 @@ summary(marketing$twitter)
 
 boxplot(marketing$twitter, ylab = "Expenditures", col = "gray")
 hist(marketing$twitter, main = NULL, col = "blue")
-par(mfrow = c(1,1), lty = 1)
+par(mfrow = c(1, 1), lty = 1)
 
 #
 # Analyzing Two Variables Together
@@ -64,7 +64,7 @@ summary(marketing)
 
 table(marketing$emp_factor, marketing$pop_density)
 
-par(mfrow = c(1,3))
+par(mfrow = c(1, 3))
 mosaicplot(table(marketing$pop_density, marketing$emp_factor),
            col=c("gray","black"), main = "Factor / Factor")
 boxplot(marketing$marketing_total ~ marketing$pop_density,
@@ -144,8 +144,8 @@ bike <- read.csv("./data/Ch2_clean_bike_sharing_data.csv",
                  stringsAsFactors = TRUE)
 
 bike$season <- factor(bike$season, ordered = TRUE,
-                      levels = c("spring","summer",
-                                 "fall","winter"))
+                      levels = c("spring", "summer",
+                                 "fall", "winter"))
 bike$weather <- factor(bike$weather, ordered = TRUE,
                        levels = c("clr_part_cloud", 
                                   "mist_cloudy",
@@ -174,7 +174,7 @@ plot(bike$workingday)
 hist(bike$casual)
 
 # Question 6
-nbike <- bike[ ,-c(1:5,13)]
+nbike <- bike[ ,-c(1:5, 13)]
 cor(nbike)
 
 # Question 7
@@ -185,7 +185,7 @@ dev.off()
 
 corr.test(nbike)
 
-corrgram(nbike, order=FALSE,
+corrgram(nbike, order = FALSE,
          main = "Correlogram of Bike Data",
          lower.panel = panel.conf, upper.panel = panel.ellipse,
          diag.panel = panel.minmax, text.panel = panel.txt)
