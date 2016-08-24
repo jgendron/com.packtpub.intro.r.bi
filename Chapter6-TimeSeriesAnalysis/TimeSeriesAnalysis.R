@@ -44,13 +44,13 @@ abline(lmfit, col = "blue")
 newdata <- data.frame(time = seq(1960, 1972, 2))
 pred <- predict.lm(lmfit, newdata, interval = "predict")
 
-points(seq(1960, 1972, 2), pred[ ,1], pch = 19, col = "blue")
-abline(lsfit(seq(1960, 1972, 2), pred[,2]), col = "red")
-abline(lsfit(seq(1960, 1972, 2), pred[,3]), col = "red")
+points(seq(1960, 1972, 2), pred[, 1], pch = 19, col = "blue")
+abline(lsfit(seq(1960, 1972, 2), pred[, 2]), col = "red")
+abline(lsfit(seq(1960, 1972, 2), pred[, 3]), col = "red")
 
 pred <- predict.lm(lmfit, newdata, interval = "confidence")
-abline(lsfit(seq(1960, 1972, 2), pred[,2]), lty = 2, col = "red")
-abline(lsfit(seq(1960, 1972, 2), pred[,3]), lty = 2, col = "red")
+abline(lsfit(seq(1960, 1972, 2), pred[, 2]), lty = 2, col = "red")
+abline(lsfit(seq(1960, 1972, 2), pred[, 3]), lty = 2, col = "red")
 
 rm(airpass_df, newdata, pred, time, volume, lmfit)
 
@@ -71,7 +71,7 @@ plot(y, type = "b", ylim = c(-.1, 3))
 plot(diff(y), ylim = c(-.1, 3), xlim = c(0, 36))
 plot(diff(diff(y), lag = 12), ylim = c(-.1, 3), xlim = c(0, 36))
 par(mfrow = c(1, 1))
-detach(package:TSA, unload=TRUE)
+detach(package:TSA, unload = TRUE)
 rm(y, seq_down, seq_up)
 
 #
@@ -93,7 +93,7 @@ monthly_ride <- as.data.frame(cycle %>%
 
 table(monthly_ride$year, monthly_ride$month)
 
-riders <- monthly_ride[ ,3]
+riders <- monthly_ride[, 3]
 monthly <- ts(riders, frequency = 12, start = c(2011, 1))
 monthly
 
@@ -133,7 +133,7 @@ suppressMessages(suppressWarnings(library(forecast)))
 yr_forecast <- forecast(fit2, h = 12)
 plot(yr_forecast)
 
-# Using advanced functionality to model
+# Using advanced functionality for modeling
 
 monthly_data <- tbats(monthly)
 year_forecast <- forecast(monthly_data, h = 12)
