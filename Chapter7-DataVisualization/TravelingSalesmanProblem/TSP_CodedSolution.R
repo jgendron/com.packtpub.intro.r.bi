@@ -46,16 +46,16 @@ GeoDistanceInMetresMatrix <- function(df.geopoints) {
           # g1[[2]] and g2[[2]]. Etc.
           # Each g1[[x]] or g2[[x]] must be a list with named elements
           # "index", "latitude" and "longitude". For example:
-          # g1 <- list(list("index"=1, "latitude"=12.1, "longitude"=10.1),
-          #            list("index"=3, "latitude"=12.1, "longitude"=13.2))
+          # g1 <- list(list("index" = 1, "latitude" = 12.1, "longitude" = 10.1),
+          #            list("index" = 3, "latitude" = 12.1, "longitude" = 13.2))
           
           DistM <- function(g1, g2) {
                require("Imap")
                return(ifelse(g1$index > g2$index, 0,
-                             gdist(lat.1=g1$latitude,
-                                   lon.1=g1$longitude,
-                                   lat.2=g2$latitude,
-                                   lon.2=g2$longitude, units="m")))
+                             gdist(lat.1 = g1$latitude,
+                                   lon.1 = g1$longitude,
+                                   lat.2 = g2$latitude,
+                                   lon.2 = g2$longitude, units = "m")))
           }
           return(mapply(DistM, g1, g2))
      }
@@ -67,7 +67,7 @@ GeoDistanceInMetresMatrix <- function(df.geopoints) {
      df.geopoints$index <- 1:n.geopoints
      
      # Create a list of lists
-     list.geopoints <- by(df.geopoints[ ,c("index", "latitude",
+     list.geopoints <- by(df.geopoints[, c("index", "latitude",
                                            "longitude")], 1:n.geopoints,
                           function(x){return(list(x))})
      # Get a matrix of distances (in metres)
