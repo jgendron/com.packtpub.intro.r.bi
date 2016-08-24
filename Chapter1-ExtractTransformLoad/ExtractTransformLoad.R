@@ -39,7 +39,7 @@ grouped <- group_by(add_revenue, season)
 report <- summarise(grouped, sum(casual), sum(revenue))
 
 #
-# Loading Data into Business systems for Analysis
+# Loading Data into Business Systems for Analysis
 
 write.csv(report, "revenue_report.csv", row.names = FALSE)
 
