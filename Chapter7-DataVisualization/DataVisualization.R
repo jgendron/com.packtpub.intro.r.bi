@@ -12,7 +12,7 @@ message("Introduction to R for Business Intelligence
 # Visualizing Data
 
 #
-# Plotting Using ggplot2
+# Plotting with ggplot2
 
 plot_dat <- read.csv("./data/Ch7_marketing.csv")
 plot_dat$emp_size <- cut(plot_dat$employees, breaks = 3,
