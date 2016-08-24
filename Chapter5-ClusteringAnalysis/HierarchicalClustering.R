@@ -4,7 +4,7 @@
 # Chapter 5, Part 2 - Cluster Analysis: Hierarchical Clustering
 
 message("Introduction to R for Business Intelligence
-Chapter 5 - Data Mining: Cluster Analysis
+Chapter 5 - Data Mining with Cluster Analysis
 Copyright (2016) Packt Publishing \n
 Let's continue to learn hierarchical cluster analysis")
 
@@ -24,10 +24,10 @@ par(mfrow = c(1, 1))
 cor.test(market$age, market$income)
 
 set.seed(789)
-three <- kmeans(market[,2:3], 3)
-plot(market$age, market$inc, col=three$cluster, xlab = 'age',
+three <- kmeans(market[, 2:3], 3)
+plot(market$age, market$inc, col = three$cluster, xlab = 'age',
      ylab = 'income', main = 'K-means without Scaling')
-points(three$centers[,1], three$centers[,2], 
+points(three$centers[, 1], three$centers[, 2], 
        pch = 23, col = 'maroon', bg = 'lightblue', cex = 3)
 text(three$centers[, 1], three$centers[, 2], cex = 1.1,
      col = 'black', attributes(three$centers)$dimnames[[1]])
@@ -37,11 +37,11 @@ market$age_scale <- as.numeric(scale(market$age))
 market$inc_scale <- as.numeric(scale(market$income))
 
 set.seed(789)
-three <- kmeans(market[,4:5], 3)
+three <- kmeans(market[, 4:5], 3)
 plot(market$age_scale, market$inc_scale, col=three$cluster,
      xlab = 'age', ylab = 'income',
      main = 'K-means with Scaling')
-points(three$centers[,1], three$centers[,2], 
+points(three$centers[, 1], three$centers[, 2], 
        pch = 23, col = 'maroon', bg = 'lightblue', cex = 3)
 text(three$centers[, 1], three$centers[, 2], cex = 1.1,
      col = 'black', attributes(three$centers)$dimnames[[1]])
@@ -49,7 +49,7 @@ rm(three)
 
 # Running the hclust() Function
 set.seed(456)
-hc_mod <- hclust(dist(market[ ,4:5]), method = "ward.D2")
+hc_mod <- hclust(dist(market[, 4:5]), method = "ward.D2")
 
 # Visualizing the Model Output
 dend <- as.dendrogram(hc_mod)
@@ -66,18 +66,18 @@ str(cut(dend, h = 37.5)$upper)
 rm(dend_six_color)
 
 set.seed(456)
-two <- kmeans(market[,4:5], 2)
-three <- kmeans(market[,4:5], 3)
-four <- kmeans(market[,4:5], 4)
-five <- kmeans(market[,4:5], 5)
-six <- kmeans(market[,4:5], 6)
-seven <- kmeans(market[,4:5], 7)
-eight <- kmeans(market[,4:5], 8)
-nine <- kmeans(market[,4:5], 9)
-ten <- kmeans(market[,4:5], 10)
+two <- kmeans(market[, 4:5], 2)
+three <- kmeans(market[, 4:5], 3)
+four <- kmeans(market[, 4:5], 4)
+five <- kmeans(market[, 4:5], 5)
+six <- kmeans(market[, 4:5], 6)
+seven <- kmeans(market[, 4:5], 7)
+eight <- kmeans(market[, 4:5], 8)
+nine <- kmeans(market[, 4:5], 9)
+ten <- kmeans(market[, 4:5], 10)
 
 # Evaluting the Models
-optimize <- data.frame(clusters=c(2:10), wss = rep(0, 9))
+optimize <- data.frame(clusters = c(2:10), wss = rep(0, 9))
 optimize[1, 2] <- as.numeric(two$tot.withinss)
 optimize[2, 2] <- as.numeric(three$tot.withinss)
 optimize[3, 2] <- as.numeric(four$tot.withinss)
@@ -130,8 +130,8 @@ plot(market$age, market$income, col = market$dend6,
      main = 'Marketing Clusters from Hierarchical Clustering \n (Labels show medians of age and income for cluster)')
 points(labels[ ,2], labels[ ,3], pch = 21, col = 'maroon',
        bg = 'white', cex = 3)
-text(labels[ ,2], labels[ ,3], cex = 1.1, col = 'black',
-     labels[ ,1])
+text(labels[, 2], labels[, 3], cex = 1.1, col = 'black',
+     labels[, 1])
 
 market %>% group_by(dend6) %>% summarise(ClusterSize = n())
 

@@ -4,7 +4,7 @@
 # Chapter 5, Part 1 - Cluster Analysis: K-means Clustering
 
 message("Introduction to R for Business Intelligence
-Chapter 5 - Data Mining: Cluster Analysis
+Chapter 5 - Data Mining with Cluster Analysis
 Copyright (2016) Packt Publishing \n
 Welcome. Let's learn k-means clustering")
 
@@ -110,7 +110,7 @@ for (e in 1:dim(compare[1])[1]) {
 
 if(!require("dplyr")) install.packages("dplyr")
 suppressMessages(suppressWarnings(library(dplyr)))
-compare <- cbind(compare, hybrid = rep(0,dim(compare)[1]))
+compare <- cbind(compare, hybrid = rep(0, dim(compare)[1]))
 
 for (e in 1:dim(compare[1])[1]) {
      compare[e, 7] <- distance3(compare[e, 1], compare[e, 2], compare[e, 3])
@@ -146,4 +146,4 @@ increase <- increase[ ,-c(1:7)]
 summary(increase)
 
 text(2, 80, paste("Average increase:", round(mean(increase) *
-                    0.62137119, 2),"miles")) # .62 mi/km
+                    0.62137119, 2), "miles")) # .62 mi/km
