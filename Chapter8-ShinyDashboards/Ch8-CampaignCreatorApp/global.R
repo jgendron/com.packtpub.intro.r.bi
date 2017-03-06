@@ -28,8 +28,7 @@ suppressWarnings(suppressPackageStartupMessages(library(DT)))
 
 # this code requires a version of DT that is not yet available via CRAN as of 5/9/16
 # so check that the installed version is new enough
-stopifnot(packageVersion("DT")[1,2] >= 1, 
-          packageVersion("DT")[1,3] >= 38)
+stopifnot(compareVersion(as.character(packageVersion("DT")), '0.1.38') >= 0)
 
 # dplyr package contains easy to use functions for manipulating
 # data, which is a common task inside Shiny apps so that elements
